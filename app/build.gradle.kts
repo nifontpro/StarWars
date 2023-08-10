@@ -1,18 +1,20 @@
 plugins {
 	id("com.android.application")
-	id("org.jetbrains.kotlin.android")
+	kotlin("android")
+	id("dagger.hilt.android.plugin")
+	id("kotlin-kapt")
 }
 
 android {
-	namespace = "ru.nb.starwars"
-	compileSdk = 33
+	namespace = ProjectConfig.appId
+	compileSdk = ProjectConfig.compileSdk
 
 	defaultConfig {
-		applicationId = "ru.nb.starwars"
-		minSdk = 24
-		targetSdk = 33
-		versionCode = 1
-		versionName = "1.0"
+		applicationId = ProjectConfig.appId
+		minSdk = ProjectConfig.minSdk
+		targetSdk = ProjectConfig.targetSdk
+		versionCode = ProjectConfig.versionCode
+		versionName = ProjectConfig.versionName
 
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 		vectorDrawables {
@@ -27,11 +29,11 @@ android {
 		}
 	}
 	compileOptions {
-		sourceCompatibility = JavaVersion.VERSION_1_8
-		targetCompatibility = JavaVersion.VERSION_1_8
+		sourceCompatibility = JavaVersion.VERSION_17
+		targetCompatibility = JavaVersion.VERSION_17
 	}
 	kotlinOptions {
-		jvmTarget = "1.8"
+		jvmTarget = "17"
 	}
 
 	buildFeatures {
@@ -59,13 +61,17 @@ dependencies {
 	implementation(Compose.uiToolingPreview)
 	implementation(Compose.material3)
 	implementation(Compose.materialIcon)
+	implementation(Compose.hiltNavigationCompose)
+
+	implementation(DaggerHilt.hiltAndroid)
+	kapt(DaggerHilt.hiltCompiler)
 
 	testImplementation(Testing.junit4)
 	androidTestImplementation(Testing.junitAndroidExt)
-	androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+	androidTestImplementation(Testing.espresso)
 
 	androidTestImplementation(platform(Compose.bom))
-	androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-	debugImplementation("androidx.compose.ui:ui-tooling")
-	debugImplementation("androidx.compose.ui:ui-test-manifest")
+	androidTestImplementation(Testing.composeUiTest)
+	debugImplementation(Testing.uiTooling)
+	debugImplementation(Testing.manifest)
 }

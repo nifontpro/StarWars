@@ -8,7 +8,11 @@ object Testing {
 	private const val coroutinesTestVersion = "1.6.4"
 	const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTestVersion"
 
-	const val composeUiTest = "androidx.compose.ui:ui-test-junit4:${Compose.composeVersion}"
+	const val composeUiTest = "androidx.compose.ui:ui-test-junit4"
+
+	const val espresso = "androidx.test.espresso:espresso-core:3.5.1"
+	const val uiTooling = "androidx.compose.ui:ui-tooling"
+	const val manifest = "androidx.compose.ui:ui-test-manifest"
 
 	const val hiltTesting = "com.google.dagger:hilt-android-testing:${DaggerHilt.version}"
 
