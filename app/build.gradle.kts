@@ -76,8 +76,12 @@ dependencies {
 	implementation(Coin.compose)
 
 	implementation(Kotlin.serialization)
+
 	implementation(KTor.core)
-	implementation(KTor.cio)
+	implementation(KTor.android)
+	implementation(KTor.negotiation)
+	implementation(KTor.json)
+	implementation(KTor.kotlinJson)
 	implementation(KTor.logging)
 
 	testImplementation(Testing.junit4)

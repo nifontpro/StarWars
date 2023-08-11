@@ -1,16 +1,20 @@
 package ru.nb.starwars.search
 
 import androidx.lifecycle.ViewModel
-import org.koin.java.KoinJavaComponent.inject
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import ru.nb.starwars.data.repo.PeopleRepositoryImpl
 
 class SearchViewModel(
-	val string: String
+	val string: String,
+	private val peopleRepository: PeopleRepositoryImpl
 ) : ViewModel() {
 
-//	init {
-//		viewModelScope.launch {
-//			val result = peopleRepository.getPeople()
-//			println(result)
-//		}
+	init {
+		viewModelScope.launch {
+			val result = peopleRepository.getPeople()
+			println(result)
+		}
+	}
 
 }
