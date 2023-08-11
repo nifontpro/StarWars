@@ -1,8 +1,8 @@
 package model
 
 data class People(
-	val name: String,
+	override val name: String,
 	val gender: String,
 	val starshipsCount: Int,
 	val homeworld: String,
-)
+): BaseUi(name = name, type = UiType.STARSHIP)

@@ -8,8 +8,8 @@ val searchPresenterModule = module {
 
 	viewModel {
 		SearchViewModel(
-			string = get(),
-			peopleRepository = get()
+			peopleRepository = get(),
+			starshipRepository = get(),
 		)
 	}
 

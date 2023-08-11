@@ -3,21 +3,33 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import model.People
+import model.BaseUi
 import repo.PeopleRepository
+import repo.StarshipRepository
 
 class SearchViewModel(
-	val string: String,
-	private val peopleRepository: PeopleRepository
+	private val peopleRepository: PeopleRepository,
+	private val starshipRepository: StarshipRepository,
 ) : ViewModel() {
 
-	var peoples by mutableStateOf<List<People>>(emptyList())
+	var baseUiList by mutableStateOf<List<BaseUi>>(emptyList())
 
-	init {
+	fun findPeople(search: String) {
 		viewModelScope.launch {
-			val result = peopleRepository.getPeople()
-			peoples = result.data
+			val peoplesDef = async {
+				peopleRepository.search(searchText = search)
+			}
+			val starshipsDef = async {
+				starshipRepository.search(searchText = search)
+			}
+
+			val peoples = peoplesDef.await().data
+			val starships = starshipsDef.await().data
+
+			baseUiList = (peoples + starships).sortedBy { it.name }
+
 		}
 	}
 
