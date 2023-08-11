@@ -1,11 +1,11 @@
 package ru.nb.starwars.search
 
 import androidx.lifecycle.ViewModel
+import org.koin.java.KoinJavaComponent.inject
 
-//@HiltViewModel
-class SearchViwModel/* @Inject constructor(
-//	private val peopleRepository: PeopleRepositoryImpl
-)*/ : ViewModel() {
+class SearchViewModel(
+	val string: String
+) : ViewModel() {
 
 //	init {
 //		viewModelScope.launch {

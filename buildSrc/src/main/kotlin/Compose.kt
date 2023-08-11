@@ -12,15 +12,20 @@ object Compose {
 	const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
 	const val materialIcon = "androidx.compose.material:material-icons-extended"
 
-	private const val hiltNavigationComposeVersion = "1.0.0"
-	const val hiltNavigationCompose =
-		"androidx.hilt:hilt-navigation-compose:$hiltNavigationComposeVersion"
+	const val navigation = "androidx.navigation:navigation-compose:2.7.0"
+
+//	private const val hiltNavigationComposeVersion = "1.0.0"
+//	const val hiltNavigationCompose =
+//		"androidx.hilt:hilt-navigation-compose:$hiltNavigationComposeVersion"
 
 	private const val activityComposeVersion = "1.7.2"
 	const val activityCompose = "androidx.activity:activity-compose:$activityComposeVersion"
 
+	const val runtime = "androidx.compose.runtime:runtime"
+
 	private const val lifecycleVersion = "2.6.1"
-	const val viewModelCompose = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+//	const val viewModelCompose = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+	const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion"
 
 	private const val coilVersion = "2.2.2"
 	const val coilCompose = "io.coil-kt:coil-compose:$coilVersion"
