@@ -15,4 +15,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "Star Wars"
 include(":app")
+
+include(":search")
+include(":search:search_data")
+include(":search:search_domain")
+include(":search:search_presenter")
  

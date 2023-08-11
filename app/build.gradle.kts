@@ -59,9 +59,10 @@ android {
 //}
 
 dependencies {
+	implementation(project(Modules.searchData))
+	implementation(project(Modules.searchPresenter))
 
 	implementation(AndroidX.coreKtx)
-	implementation(AndroidX.appCompat)
 	implementation(Compose.activityCompose)
 
 	implementation(platform(Compose.bom))
@@ -72,11 +73,10 @@ dependencies {
 	implementation(Compose.materialIcon)
 	implementation(Compose.viewModelCompose)
 	implementation(Compose.navigation)
-
+	implementation(Compose.coilCompose)
 	implementation(Coin.compose)
 
 	implementation(Kotlin.serialization)
-
 	implementation(KTor.core)
 	implementation(KTor.android)
 	implementation(KTor.negotiation)

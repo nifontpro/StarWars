@@ -1,10 +1,12 @@
 package ru.nb.starwars
 
 import android.app.Application
+import di.searchDataModule
+import di.searchPresenterModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
-import ru.nb.starwars.data.di.testModule
+import ru.nb.starwars.data.di.mainModule
 
 class MainApplication : Application() {
 
@@ -14,7 +16,11 @@ class MainApplication : Application() {
 		startKoin {
 			androidLogger()
 			androidContext(this@MainApplication)
-			modules(testModule)
+			modules(
+				mainModule,
+				searchPresenterModule,
+				searchDataModule
+			)
 		}
 	}
 

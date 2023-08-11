@@ -24,10 +24,10 @@ object Compose {
 	const val runtime = "androidx.compose.runtime:runtime"
 
 	private const val lifecycleVersion = "2.6.1"
-//	const val viewModelCompose = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
-	const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion"
+	const val viewModelCompose = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+//	const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion"
 
-	private const val coilVersion = "2.2.2"
+	private const val coilVersion = "2.4.0"
 	const val coilCompose = "io.coil-kt:coil-compose:$coilVersion"
 
 //	private const val permissionVersion = "0.26.2-beta"
