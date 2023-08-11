@@ -1,8 +1,9 @@
 plugins {
 	id("com.android.application")
 	kotlin("android")
-	id("dagger.hilt.android.plugin")
+	kotlin("plugin.serialization")
 	id("kotlin-kapt")
+	id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -29,10 +30,14 @@ android {
 		}
 	}
 	compileOptions {
+//		sourceCompatibility = JavaVersion.VERSION_1_8
+//		targetCompatibility = JavaVersion.VERSION_1_8
+
 		sourceCompatibility = JavaVersion.VERSION_17
 		targetCompatibility = JavaVersion.VERSION_17
 	}
 	kotlinOptions {
+//		jvmTarget = "1.8"
 		jvmTarget = "17"
 	}
 
@@ -49,10 +54,15 @@ android {
 	}
 }
 
+//tasks.withType<org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs> {
+//	kotlinOptions {
+//		jvmTarget="1.8"
+//	}
+//}
+
 dependencies {
 
 	implementation(AndroidX.coreKtx)
-	implementation(Compose.viewModelCompose)
 	implementation(Compose.activityCompose)
 
 	implementation(platform(Compose.bom))
@@ -61,10 +71,17 @@ dependencies {
 	implementation(Compose.uiToolingPreview)
 	implementation(Compose.material3)
 	implementation(Compose.materialIcon)
-	implementation(Compose.hiltNavigationCompose)
+
+	implementation(Compose.viewModelCompose)
 
 	implementation(DaggerHilt.hiltAndroid)
 	kapt(DaggerHilt.hiltCompiler)
+	implementation(Compose.hiltNavigationCompose)
+
+	implementation(Kotlin.serialization)
+	implementation(KTor.core)
+	implementation(KTor.cio)
+	implementation(KTor.logging)
 
 	testImplementation(Testing.junit4)
 	androidTestImplementation(Testing.junitAndroidExt)

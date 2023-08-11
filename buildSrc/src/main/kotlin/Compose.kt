@@ -20,7 +20,7 @@ object Compose {
 	const val activityCompose = "androidx.activity:activity-compose:$activityComposeVersion"
 
 	private const val lifecycleVersion = "2.6.1"
-	const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion"
+	const val viewModelCompose = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 
 	private const val coilVersion = "2.2.2"
 	const val coilCompose = "io.coil-kt:coil-compose:$coilVersion"
