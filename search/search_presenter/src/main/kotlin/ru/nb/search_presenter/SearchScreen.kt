@@ -3,6 +3,7 @@ package ru.nb.search_presenter
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -41,6 +42,7 @@ import ru.nb.search_domain.model.Starship
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
+	paddingValues: PaddingValues,
 	viewModel: SearchViewModel = hiltViewModel()
 ) {
 
@@ -48,7 +50,7 @@ fun SearchScreen(
 	val favoriteStarship by viewModel.favoriteStarshipFlow.collectAsState(initial = emptyList())
 
 	Column(
-		modifier = Modifier.fillMaxSize()
+		modifier = Modifier.padding(paddingValues).fillMaxSize()
 	) {
 		var searchText by remember { mutableStateOf("") }
 		LaunchedEffect(key1 = searchText) {
@@ -77,7 +79,7 @@ fun SearchScreen(
 		LazyColumn(
 			verticalArrangement = Arrangement.spacedBy(8.dp)
 		) {
-			items(viewModel.baseUiList) { baseUi ->
+			items(viewModel.baseUiList, key = { it.name }) { baseUi ->
 				ElevatedCard(
 					modifier = Modifier
 						.padding(horizontal = 8.dp)
@@ -101,7 +103,7 @@ fun SearchScreen(
 								addToFavorite = viewModel::addStarshipToFavorite,
 								removeFromFavorite = viewModel::removeStarshipFromFavorite,
 								checkInFavorite = { starship -> starship in favoriteStarship }
-								)
+							)
 						}
 					}
 				}
@@ -124,7 +126,7 @@ private fun RowScope.PeopleCard(
 		contentDescription = null
 	)
 	Column(modifier = Modifier.weight(1f)) {
-		Text(text = people.name)
+		Text(text = people.name, style = MaterialTheme.typography.titleMedium)
 		Text(text = people.gender)
 		Text(text = "Starships: ${people.starshipsCount}")
 	}
@@ -154,7 +156,7 @@ private fun RowScope.StarshipCard(
 		contentDescription = null
 	)
 	Column(modifier = Modifier.weight(1f)) {
-		Text(text = starship.name)
+		Text(text = starship.name, style = MaterialTheme.typography.titleMedium)
 		Text(text = starship.model)
 		Text(text = starship.passengers)
 		Text(text = starship.manufacturer)

@@ -1,8 +1,10 @@
 package ru.nb.favorite_presenter
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,18 +27,22 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import ru.nb.search_domain.model.People
 import ru.nb.search_domain.model.Starship
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FavoriteScreen(
+	paddingValues: PaddingValues,
 	viewModel: FavoriteViewModel = hiltViewModel()
 ) {
 	LazyColumn(
+		modifier = Modifier.padding(paddingValues),
 		verticalArrangement = Arrangement.spacedBy(8.dp)
 	) {
-		items(viewModel.favorites) { baseUi ->
+		items(viewModel.favorites, key = {it.name}) { baseUi ->
 			ElevatedCard(
 				modifier = Modifier
 					.padding(horizontal = 8.dp)
 					.fillMaxWidth()
+					.animateItemPlacement()
 			) {
 				Row(
 					modifier = Modifier.padding(8.dp),
@@ -72,7 +78,7 @@ private fun RowScope.PeopleCard(
 		contentDescription = null
 	)
 	Column(modifier = Modifier.weight(1f)) {
-		Text(text = people.name)
+		Text(text = people.name, style = MaterialTheme.typography.titleMedium)
 		Text(text = people.gender)
 		Text(text = "Starships: ${people.starshipsCount}")
 	}
@@ -98,9 +104,9 @@ private fun RowScope.StarshipCard(
 		contentDescription = null
 	)
 	Column(modifier = Modifier.weight(1f)) {
-		Text(text = starship.name)
+		Text(text = starship.name, style = MaterialTheme.typography.titleMedium)
 		Text(text = starship.model)
-		Text(text = starship.passengers)
+		Text(text = "Passengers: ${starship.passengers}")
 		Text(text = starship.manufacturer)
 	}
 	Icon(
