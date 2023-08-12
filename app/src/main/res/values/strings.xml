@@ -1,3 +1,4 @@
-<resources>
-    <string name="app_name">Star Wars</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" tools:ignore="MissingTranslation">Star Wars</string>
+    <string name="star_wars">Star Wars</string>
 </resources>

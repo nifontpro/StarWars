@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -104,7 +105,8 @@ private fun ConfigureBottomNavigate() {
 				) {
 					Column(modifier = Modifier.fillMaxWidth()) {
 						Text(
-							text = "Star Wars by Dmitry Busygin",
+							text = stringResource(R.string.star_wars),
+							style = MaterialTheme.typography.headlineLarge,
 							modifier = Modifier.align(Alignment.CenterHorizontally)
 						)
 					}
@@ -138,13 +140,13 @@ private fun BoxScope.BottomIcon(iconSize: Dp) {
 	) {
 		Image(
 			imageVector = ImageVector.vectorResource(R.drawable.ic_kotlin_icon),
-			contentDescription = "",
+			contentDescription = "Kotlin",
 			modifier = Modifier
 				.size(iconSize)
 		)
 		Image(
 			imageVector = ImageVector.vectorResource(R.drawable.ic_compose),
-			contentDescription = "",
+			contentDescription = "Compose",
 			modifier = Modifier
 				.size(iconSize)
 		)
