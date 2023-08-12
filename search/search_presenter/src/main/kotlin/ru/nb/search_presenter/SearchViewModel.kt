@@ -25,22 +25,8 @@ class SearchViewModel @Inject constructor(
 
 	var baseUiList by mutableStateOf<List<BaseUi>>(emptyList())
 
-//	var favorites by mutableStateOf<List<BaseUi>>(emptyList())
-
 	val favoritePeopleFlow = favoriteRepository.getAllPeoples()
 	val favoriteStarshipFlow = favoriteRepository.getAllStarships()
-
-	/*	private var favoritePeople by mutableStateOf<List<People>>(emptyList())
-		private var favoriteStarship by mutableStateOf<List<People>>(emptyList())
-
-		init {
-			viewModelScope.launch {
-				favoritePeopleFlow.collectLatest {
-					favoritePeople = it
-					favorites = it
-				}
-			}
-		}*/
 
 	fun findPeople(search: String) {
 		viewModelScope.launch {

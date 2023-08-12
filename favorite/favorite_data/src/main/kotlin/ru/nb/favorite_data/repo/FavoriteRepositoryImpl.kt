@@ -1,7 +1,9 @@
 package ru.nb.favorite_data.repo
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import ru.nb.favorite_data.db.dao.PeopleDao
 import ru.nb.favorite_data.db.dao.StarshipDao
 import ru.nb.favorite_data.model.mappers.toPeople
@@ -18,11 +20,15 @@ class FavoriteRepositoryImpl(
 ) : FavoriteRepository {
 
 	override suspend fun addPeople(people: People) {
-		peopleDao.insert(people.toPeopleEntity())
+		withContext(Dispatchers.IO) {
+			peopleDao.insert(people.toPeopleEntity())
+		}
 	}
 
 	override suspend fun removePeople(people: People) {
-		peopleDao.delete(people.toPeopleEntity())
+		withContext(Dispatchers.IO) {
+			peopleDao.delete(people.toPeopleEntity())
+		}
 	}
 
 	override fun getAllPeoples(): Flow<List<People>> {
@@ -32,11 +38,15 @@ class FavoriteRepositoryImpl(
 	}
 
 	override suspend fun addStarship(starship: Starship) {
-		starshipDao.insert(starship.toStarshipEntity())
+		withContext(Dispatchers.IO) {
+			starshipDao.insert(starship.toStarshipEntity())
+		}
 	}
 
 	override suspend fun removeStarship(starship: Starship) {
-		starshipDao.delete(starship.toStarshipEntity())
+		withContext(Dispatchers.IO) {
+			starshipDao.delete(starship.toStarshipEntity())
+		}
 	}
 
 	override fun getAllStarships(): Flow<List<Starship>> {

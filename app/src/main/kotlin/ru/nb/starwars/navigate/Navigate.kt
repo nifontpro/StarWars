@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import ru.nb.favorite_presenter.FavoriteScreen
 import ru.nb.search_presenter.SearchScreen
 
 @Composable
@@ -75,7 +76,7 @@ private fun ConfigureBottomNavigate() {
 				SearchScreen()
 			}
 			composable(Screen.FavoriteScreen.route) {
-				Text("Favorite screen")
+				FavoriteScreen()
 			}
 			composable(Screen.AboutScreen.route) {
 				Text("About screen")
