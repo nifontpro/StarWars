@@ -63,6 +63,9 @@ dependencies {
 	implementation(project(Modules.searchData))
 	implementation(project(Modules.searchPresenter))
 
+	implementation(project(Modules.favoriteData))
+	implementation(project(Modules.favoritePresenter))
+
 	implementation(AndroidX.coreKtx)
 	implementation(Compose.activityCompose)
 

@@ -7,5 +7,6 @@ dependencies {
 //    "implementation"(project(Modules.coreUi))
 
     "implementation" (project(Modules.searchDomain))
+    "implementation" (project(Modules.favoriteDomain))
 
 }

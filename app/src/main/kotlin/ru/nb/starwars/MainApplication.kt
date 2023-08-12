@@ -1,6 +1,7 @@
 package ru.nb.starwars
 
 import android.app.Application
+import di.favoriteDataModule
 import di.searchDataModule
 import di.searchPresenterModule
 import org.koin.android.ext.koin.androidContext
@@ -16,11 +17,14 @@ class MainApplication : Application() {
 		startKoin {
 			androidLogger()
 			androidContext(androidContext = this@MainApplication)
+
 			modules(
 				mainModule,
 				searchPresenterModule,
-				searchDataModule
+				searchDataModule,
+				favoriteDataModule,
 			)
+
 		}
 	}
 

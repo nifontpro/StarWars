@@ -2,6 +2,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.RocketLaunch
+import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -74,10 +76,15 @@ fun SearchScreen() {
 				) {
 					Row(
 						modifier = Modifier.padding(8.dp),
-						verticalAlignment = Alignment.CenterVertically
+						verticalAlignment = Alignment.CenterVertically,
+//						horizontalArrangement = Arrangement.SpaceBetween
 					) {
 						when (baseUi) {
-							is People -> PeopleCard(people = baseUi)
+							is People -> PeopleCard(
+								people = baseUi,
+								favoriteClick = viewModel::addToFavorite
+							)
+
 							is Starship -> StarshipCard(starship = baseUi)
 						}
 					}
@@ -88,18 +95,29 @@ fun SearchScreen() {
 }
 
 @Composable
-private fun PeopleCard(people: People) {
+private fun RowScope.PeopleCard(
+	people: People,
+	favoriteClick: (People) -> Unit,
+) {
 	Icon(
 		modifier = Modifier.padding(8.dp),
 		imageVector = Icons.Outlined.Person,
 		tint = MaterialTheme.colorScheme.primary,
 		contentDescription = null
 	)
-	Column {
+	Column(modifier = Modifier.weight(1f)) {
 		Text(text = people.name)
 		Text(text = people.gender)
 		Text(text = "Starships: ${people.starshipsCount}")
 	}
+	Icon(
+		modifier = Modifier
+			.padding(8.dp)
+			.clickable(onClick = { favoriteClick(people) }),
+		imageVector = Icons.Outlined.StarBorder,
+		tint = MaterialTheme.colorScheme.error,
+		contentDescription = null
+	)
 }
 
 @Composable

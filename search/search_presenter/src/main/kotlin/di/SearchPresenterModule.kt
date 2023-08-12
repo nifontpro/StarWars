@@ -10,6 +10,7 @@ val searchPresenterModule = module {
 		SearchViewModel(
 			peopleRepository = get(),
 			starshipRepository = get(),
+			favoriteRepository = get()
 		)
 	}
 
