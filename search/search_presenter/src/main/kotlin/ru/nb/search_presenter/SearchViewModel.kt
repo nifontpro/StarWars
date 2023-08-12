@@ -8,11 +8,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import ru.nb.favorite_domain.repo.FavoriteRepository
 import ru.nb.search_domain.model.BaseUi
 import ru.nb.search_domain.model.People
-import ru.nb.favorite_domain.repo.FavoriteRepository
-import repo.PeopleRepository
-import repo.StarshipRepository
+import ru.nb.search_domain.model.Starship
+import ru.nb.search_domain.repo.PeopleRepository
+import ru.nb.search_domain.repo.StarshipRepository
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,19 +26,21 @@ class SearchViewModel @Inject constructor(
 	var baseUiList by mutableStateOf<List<BaseUi>>(emptyList())
 
 //	var favorites by mutableStateOf<List<BaseUi>>(emptyList())
-//
-//	val favoritePeople = favoriteRepository.getAll()
 
-//	init {
-//		viewModelScope.launch {
-//
-//			merge(favoritePeople).onEach {
-//				favorites = it
-//				println(it)
-//			}
-//		}
-//
-//	}
+	val favoritePeopleFlow = favoriteRepository.getAllPeoples()
+	val favoriteStarshipFlow = favoriteRepository.getAllStarships()
+
+	/*	private var favoritePeople by mutableStateOf<List<People>>(emptyList())
+		private var favoriteStarship by mutableStateOf<List<People>>(emptyList())
+
+		init {
+			viewModelScope.launch {
+				favoritePeopleFlow.collectLatest {
+					favoritePeople = it
+					favorites = it
+				}
+			}
+		}*/
 
 	fun findPeople(search: String) {
 		viewModelScope.launch {
@@ -56,9 +59,27 @@ class SearchViewModel @Inject constructor(
 		}
 	}
 
-	fun addToFavorite(people: People) {
+	fun addPeopleToFavorite(people: People) {
 		viewModelScope.launch {
-			favoriteRepository.add(people)
+			favoriteRepository.addPeople(people)
+		}
+	}
+
+	fun removePeopleFromFavorite(people: People) {
+		viewModelScope.launch {
+			favoriteRepository.removePeople(people)
+		}
+	}
+
+	fun addStarshipToFavorite(starship: Starship) {
+		viewModelScope.launch {
+			favoriteRepository.addStarship(starship)
+		}
+	}
+
+	fun removeStarshipFromFavorite(starship: Starship) {
+		viewModelScope.launch {
+			favoriteRepository.removeStarship(starship)
 		}
 	}
 

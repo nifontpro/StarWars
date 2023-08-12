@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.RocketLaunch
 import androidx.compose.material.icons.outlined.StarBorder
@@ -24,6 +25,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,6 +43,10 @@ import ru.nb.search_domain.model.Starship
 fun SearchScreen(
 	viewModel: SearchViewModel = hiltViewModel()
 ) {
+
+	val favoritePeople by viewModel.favoritePeopleFlow.collectAsState(initial = emptyList())
+	val favoriteStarship by viewModel.favoriteStarshipFlow.collectAsState(initial = emptyList())
+
 	Column(
 		modifier = Modifier.fillMaxSize()
 	) {
@@ -85,10 +91,17 @@ fun SearchScreen(
 						when (baseUi) {
 							is People -> PeopleCard(
 								people = baseUi,
-								favoriteClick = viewModel::addToFavorite
+								addToFavorite = viewModel::addPeopleToFavorite,
+								removeFromFavorite = viewModel::removePeopleFromFavorite,
+								checkInFavorite = { people -> people in favoritePeople }
 							)
 
-							is Starship -> StarshipCard(starship = baseUi)
+							is Starship -> StarshipCard(
+								starship = baseUi,
+								addToFavorite = viewModel::addStarshipToFavorite,
+								removeFromFavorite = viewModel::removeStarshipFromFavorite,
+								checkInFavorite = { starship -> starship in favoriteStarship }
+								)
 						}
 					}
 				}
@@ -100,7 +113,9 @@ fun SearchScreen(
 @Composable
 private fun RowScope.PeopleCard(
 	people: People,
-	favoriteClick: (People) -> Unit,
+	addToFavorite: (People) -> Unit,
+	removeFromFavorite: (People) -> Unit,
+	checkInFavorite: (People) -> Boolean
 ) {
 	Icon(
 		modifier = Modifier.padding(8.dp),
@@ -116,25 +131,42 @@ private fun RowScope.PeopleCard(
 	Icon(
 		modifier = Modifier
 			.padding(8.dp)
-			.clickable(onClick = { favoriteClick(people) }),
-		imageVector = Icons.Outlined.StarBorder,
+			.clickable(onClick = {
+				if (checkInFavorite(people)) removeFromFavorite(people) else addToFavorite(people)
+			}),
+		imageVector = if (checkInFavorite(people)) Icons.Filled.Star else Icons.Outlined.StarBorder,
 		tint = MaterialTheme.colorScheme.error,
 		contentDescription = null
 	)
 }
 
 @Composable
-private fun StarshipCard(starship: Starship) {
+private fun RowScope.StarshipCard(
+	starship: Starship,
+	addToFavorite: (Starship) -> Unit,
+	removeFromFavorite: (Starship) -> Unit,
+	checkInFavorite: (Starship) -> Boolean
+) {
 	Icon(
 		modifier = Modifier.padding(8.dp),
 		imageVector = Icons.Outlined.RocketLaunch,
 		tint = MaterialTheme.colorScheme.primary,
 		contentDescription = null
 	)
-	Column {
+	Column(modifier = Modifier.weight(1f)) {
 		Text(text = starship.name)
 		Text(text = starship.model)
 		Text(text = starship.passengers)
 		Text(text = starship.manufacturer)
 	}
+	Icon(
+		modifier = Modifier
+			.padding(8.dp)
+			.clickable(onClick = {
+				if (checkInFavorite(starship)) removeFromFavorite(starship) else addToFavorite(starship)
+			}),
+		imageVector = if (checkInFavorite(starship)) Icons.Filled.Star else Icons.Outlined.StarBorder,
+		tint = MaterialTheme.colorScheme.error,
+		contentDescription = null
+	)
 }

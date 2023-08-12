@@ -12,7 +12,7 @@ import ru.nb.search_domain.model.People
 import ru.nb.search_data.model.PeopleDto
 import ru.nb.search_data.model.mappers.toBaseResult
 import ru.nb.search_data.model.mappers.toPeople
-import repo.PeopleRepository
+import ru.nb.search_domain.repo.PeopleRepository
 
 class PeopleRepositoryImpl(private val httpClient: HttpClient) : PeopleRepository {
 

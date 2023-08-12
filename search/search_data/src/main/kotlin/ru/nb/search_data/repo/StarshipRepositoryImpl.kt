@@ -12,7 +12,7 @@ import ru.nb.search_domain.model.Starship
 import ru.nb.search_data.model.StarshipDto
 import ru.nb.search_data.model.mappers.toBaseResult
 import ru.nb.search_data.model.mappers.toStarship
-import repo.StarshipRepository
+import ru.nb.search_domain.repo.StarshipRepository
 
 class StarshipRepositoryImpl(private val httpClient: HttpClient) : StarshipRepository {
 

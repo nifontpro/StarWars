@@ -37,7 +37,8 @@ object FavoriteDataModule {
 	@ViewModelScoped
 	fun provideFavoriteRepository(db: StarwarDatabase): FavoriteRepository {
 		return FavoriteRepositoryImpl(
-			peopleDao = db.peopleDao
+			peopleDao = db.peopleDao,
+			starshipDao = db.starshipDao
 		)
 	}
 }
