@@ -2,7 +2,12 @@ plugins {
 	id("com.android.application")
 	kotlin("android")
 	kotlin("plugin.serialization")
+	id("com.google.dagger.hilt.android")
 	id("kotlin-kapt")
+}
+
+kapt {
+	correctErrorTypes = true
 }
 
 android {
@@ -29,15 +34,15 @@ android {
 		}
 	}
 	compileOptions {
-		sourceCompatibility = JavaVersion.VERSION_1_8
-		targetCompatibility = JavaVersion.VERSION_1_8
+//		sourceCompatibility = JavaVersion.VERSION_1_8
+//		targetCompatibility = JavaVersion.VERSION_1_8
 
-//		sourceCompatibility = JavaVersion.VERSION_17
-//		targetCompatibility = JavaVersion.VERSION_17
+		sourceCompatibility = JavaVersion.VERSION_17
+		targetCompatibility = JavaVersion.VERSION_17
 	}
 	kotlinOptions {
 		jvmTarget = "1.8"
-//		jvmTarget = "17"
+		jvmTarget = "17"
 	}
 
 	buildFeatures {
@@ -53,18 +58,23 @@ android {
 	}
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs> {
-	kotlinOptions {
-		jvmTarget = "1.8"
-	}
-}
+//tasks.withType<org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs> {
+//	kotlinOptions {
+//		jvmTarget = "1.8"
+//	}
+//}
 
 dependencies {
 	implementation(project(Modules.searchData))
+	implementation(project(Modules.searchDomain))
 	implementation(project(Modules.searchPresenter))
 
 	implementation(project(Modules.favoriteData))
+	implementation(project(Modules.favoriteDomain))
 	implementation(project(Modules.favoritePresenter))
+
+	implementation(DaggerHilt.hiltAndroid)
+	kapt(DaggerHilt.hiltCompiler)
 
 	implementation(AndroidX.coreKtx)
 	implementation(Compose.activityCompose)
@@ -77,8 +87,8 @@ dependencies {
 	implementation(Compose.materialIcon)
 	implementation(Compose.viewModelCompose)
 	implementation(Compose.navigation)
+	implementation(Compose.hiltNavigationCompose)
 	implementation(Compose.coilCompose)
-	implementation(Coin.compose)
 
 	implementation(Kotlin.serialization)
 	implementation(KTor.core)
@@ -87,6 +97,10 @@ dependencies {
 	implementation(KTor.json)
 	implementation(KTor.kotlinJson)
 	implementation(KTor.logging)
+
+	kapt(Room.roomCompiler)
+	implementation(Room.roomKtx)
+	implementation(Room.roomRuntime)
 
 	testImplementation(Testing.junit4)
 	androidTestImplementation(Testing.junitAndroidExt)
