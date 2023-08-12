@@ -15,7 +15,7 @@ class MainApplication : Application() {
 
 		startKoin {
 			androidLogger()
-			androidContext(this@MainApplication)
+			androidContext(androidContext = this@MainApplication)
 			modules(
 				mainModule,
 				searchPresenterModule,

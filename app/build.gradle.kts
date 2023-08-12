@@ -2,6 +2,7 @@ plugins {
 	id("com.android.application")
 	kotlin("android")
 	kotlin("plugin.serialization")
+	id("kotlin-kapt")
 }
 
 android {
@@ -52,11 +53,11 @@ android {
 	}
 }
 
-//tasks.withType<org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs> {
-//	kotlinOptions {
-//		jvmTarget = "1.8"
-//	}
-//}
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs> {
+	kotlinOptions {
+		jvmTarget = "1.8"
+	}
+}
 
 dependencies {
 	implementation(project(Modules.searchData))

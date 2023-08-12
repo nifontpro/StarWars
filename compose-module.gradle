@@ -1,5 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+kotlin {
+    jvmToolchain(8)
+}
 
 android {
     namespace ProjectConfig.appId

@@ -13,6 +13,10 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/favorite" />
+            <option value="$PROJECT_DIR$/favorite/favorite_data" />
+            <option value="$PROJECT_DIR$/favorite/favorite_domain" />
+            <option value="$PROJECT_DIR$/favorite/favorite_presenter" />
             <option value="$PROJECT_DIR$/search" />
             <option value="$PROJECT_DIR$/search/search_data" />
             <option value="$PROJECT_DIR$/search/search_domain" />
