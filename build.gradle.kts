@@ -8,6 +8,7 @@ buildscript {
 		classpath(Build.hiltAndroidGradlePlugin)
 		classpath(Build.kotlinGradlePlugin)
 		classpath(Build.kotlinSerializationPlugin)
+		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20")
 	}
 }
 

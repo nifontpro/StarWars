@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 pluginManagement {
 	repositories {
 		google()
@@ -24,4 +26,3 @@ include(":favorite")
 include(":favorite:favorite_data")
 include(":favorite:favorite_domain")
 include(":favorite:favorite_presenter")
-

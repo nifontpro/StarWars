@@ -12,7 +12,7 @@ kapt {
 }
 
 android {
-    namespace ProjectConfig.appId
+    namespace ProjectConfig.appId + "_base"
     compileSdk ProjectConfig.compileSdk
 
     defaultConfig {

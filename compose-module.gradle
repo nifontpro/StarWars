@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+//apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
@@ -11,7 +12,7 @@ kapt {
 //}
 
 android {
-    namespace ProjectConfig.appId
+    namespace ProjectConfig.appId + "_compose"
     compileSdk ProjectConfig.compileSdk
 
     defaultConfig {
@@ -21,7 +22,10 @@ android {
         versionName ProjectConfig.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
+//        consumerProguardFiles "consumer-rules.pro"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
     buildFeatures {
         compose true
@@ -47,6 +51,11 @@ android {
     kotlinOptions {
 //        jvmTarget = '1.8'
         jvmTarget = '17'
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
