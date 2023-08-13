@@ -42,7 +42,7 @@ public final class PeopleDao_Impl implements PeopleDao {
     this.__insertionAdapterOfPeopleEntity = new EntityInsertionAdapter<PeopleEntity>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `PeopleEntity` (`name`,`gender`,`starshipsCount`,`homeworld`) VALUES (?,?,?,?)";
+        return "INSERT OR REPLACE INTO `PeopleEntity` (`name`,`gender`,`starshipsCount`,`homeworld`,`url`) VALUES (?,?,?,?,?)";
       }
 
       @Override
@@ -62,28 +62,33 @@ public final class PeopleDao_Impl implements PeopleDao {
           stmt.bindNull(4);
         } else {
           stmt.bindString(4, value.getHomeworld());
+        }
+        if (value.getUrl() == null) {
+          stmt.bindNull(5);
+        } else {
+          stmt.bindString(5, value.getUrl());
         }
       }
     };
     this.__deletionAdapterOfPeopleEntity = new EntityDeletionOrUpdateAdapter<PeopleEntity>(__db) {
       @Override
       public String createQuery() {
-        return "DELETE FROM `PeopleEntity` WHERE `name` = ?";
+        return "DELETE FROM `PeopleEntity` WHERE `url` = ?";
       }
 
       @Override
       public void bind(SupportSQLiteStatement stmt, PeopleEntity value) {
-        if (value.getName() == null) {
+        if (value.getUrl() == null) {
           stmt.bindNull(1);
         } else {
-          stmt.bindString(1, value.getName());
+          stmt.bindString(1, value.getUrl());
         }
       }
     };
     this.__updateAdapterOfPeopleEntity = new EntityDeletionOrUpdateAdapter<PeopleEntity>(__db) {
       @Override
       public String createQuery() {
-        return "UPDATE OR ABORT `PeopleEntity` SET `name` = ?,`gender` = ?,`starshipsCount` = ?,`homeworld` = ? WHERE `name` = ?";
+        return "UPDATE OR ABORT `PeopleEntity` SET `name` = ?,`gender` = ?,`starshipsCount` = ?,`homeworld` = ?,`url` = ? WHERE `url` = ?";
       }
 
       @Override
@@ -104,10 +109,15 @@ public final class PeopleDao_Impl implements PeopleDao {
         } else {
           stmt.bindString(4, value.getHomeworld());
         }
-        if (value.getName() == null) {
+        if (value.getUrl() == null) {
           stmt.bindNull(5);
         } else {
-          stmt.bindString(5, value.getName());
+          stmt.bindString(5, value.getUrl());
+        }
+        if (value.getUrl() == null) {
+          stmt.bindNull(6);
+        } else {
+          stmt.bindString(6, value.getUrl());
         }
       }
     };
@@ -196,6 +206,7 @@ public final class PeopleDao_Impl implements PeopleDao {
             final int _cursorIndexOfGender = CursorUtil.getColumnIndexOrThrow(_cursor, "gender");
             final int _cursorIndexOfStarshipsCount = CursorUtil.getColumnIndexOrThrow(_cursor, "starshipsCount");
             final int _cursorIndexOfHomeworld = CursorUtil.getColumnIndexOrThrow(_cursor, "homeworld");
+            final int _cursorIndexOfUrl = CursorUtil.getColumnIndexOrThrow(_cursor, "url");
             final List<PeopleEntity> _result = new ArrayList<PeopleEntity>(_cursor.getCount());
             while(_cursor.moveToNext()) {
               final PeopleEntity _item;
@@ -219,7 +230,13 @@ public final class PeopleDao_Impl implements PeopleDao {
               } else {
                 _tmpHomeworld = _cursor.getString(_cursorIndexOfHomeworld);
               }
-              _item = new PeopleEntity(_tmpName,_tmpGender,_tmpStarshipsCount,_tmpHomeworld);
+              final String _tmpUrl;
+              if (_cursor.isNull(_cursorIndexOfUrl)) {
+                _tmpUrl = null;
+              } else {
+                _tmpUrl = _cursor.getString(_cursorIndexOfUrl);
+              }
+              _item = new PeopleEntity(_tmpName,_tmpGender,_tmpStarshipsCount,_tmpHomeworld,_tmpUrl);
               _result.add(_item);
             }
             __db.setTransactionSuccessful();

@@ -6,19 +6,15 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.nb.favorite_domain.repo.FavoriteRepository
 import ru.nb.search_domain.model.BaseUi
 import ru.nb.search_domain.model.People
+import ru.nb.search_domain.model.Planet
 import ru.nb.search_domain.model.Starship
 import javax.inject.Inject
 
@@ -29,13 +25,13 @@ class FavoriteViewModel @Inject constructor(
 
 	private val favoritePeopleFlow = favoriteRepository.getAllPeoples()
 	private val favoriteStarshipFlow = favoriteRepository.getAllStarships()
+	private val favoritePlanetFlow = favoriteRepository.getAllPlanets()
 
 	private val favoritePeopleState = MutableStateFlow<List<People>>(emptyList())
 	private val favoriteStarshipState = MutableStateFlow<List<Starship>>(emptyList())
+	private val favoritePlanetState = MutableStateFlow<List<Planet>>(emptyList())
 
 	var favorites by mutableStateOf<List<BaseUi>>(emptyList())
-
-	// https://stackoverflow.com/questions/65444049/combine-two-state-flows-into-new-state-flow
 
 	init {
 		viewModelScope.launch {
@@ -52,11 +48,18 @@ class FavoriteViewModel @Inject constructor(
 			}
 
 			launch {
-				favoritePeopleState.combine(favoriteStarshipState) { peoples, starships ->
-					favorites = (peoples + starships).sortedBy { it.name }
-				}.collect()
+				favoritePlanetFlow.collectLatest {
+					favoritePlanetState.value = it
+				}
 			}
 
+			launch {
+				favoritePeopleState.combine(favoriteStarshipState) { peoples, starships ->
+					peoples + starships
+				}.combine(favoritePlanetState) { peoplesAndStarships, planets ->
+					favorites = (peoplesAndStarships + planets).sortedBy { it.name }
+				}.collect()
+			}
 		}
 	}
 
@@ -69,6 +72,12 @@ class FavoriteViewModel @Inject constructor(
 	fun removeStarshipFromFavorite(starship: Starship) {
 		viewModelScope.launch {
 			favoriteRepository.removeStarship(starship)
+		}
+	}
+
+	fun removePlanetFromFavorite(planet: Planet) {
+		viewModelScope.launch {
+			favoriteRepository.removePlanet(planet)
 		}
 	}
 }

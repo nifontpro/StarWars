@@ -4,11 +4,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class PeopleEntity(
+data class PlanetEntity(
 	val name: String,
-	val gender: String,
-	val starshipsCount: Int,
-	val homeworld: String,
+	val diameter: String,
+	val population: String,
 
 	@PrimaryKey(autoGenerate = false)
 	val url: String,

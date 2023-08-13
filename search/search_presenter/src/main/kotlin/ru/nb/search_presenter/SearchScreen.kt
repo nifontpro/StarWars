@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material.icons.outlined.RocketLaunch
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.ElevatedCard
@@ -37,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.delay
 import ru.nb.search_domain.model.People
+import ru.nb.search_domain.model.Planet
 import ru.nb.search_domain.model.Starship
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,17 +48,20 @@ fun SearchScreen(
 	viewModel: SearchViewModel = hiltViewModel()
 ) {
 
-	val favoritePeople by viewModel.favoritePeopleFlow.collectAsState(initial = emptyList())
-	val favoriteStarship by viewModel.favoriteStarshipFlow.collectAsState(initial = emptyList())
+	val favoritePeoples by viewModel.favoritePeopleFlow.collectAsState(initial = emptyList())
+	val favoriteStarships by viewModel.favoriteStarshipFlow.collectAsState(initial = emptyList())
+	val favoritePlanets by viewModel.favoritePlanetFlow.collectAsState(initial = emptyList())
 
 	Column(
-		modifier = Modifier.padding(paddingValues).fillMaxSize()
+		modifier = Modifier
+			.padding(paddingValues)
+			.fillMaxSize()
 	) {
 		var searchText by remember { mutableStateOf("") }
 		LaunchedEffect(key1 = searchText) {
 			if (searchText.isBlank() || searchText.length < 2) return@LaunchedEffect
 			delay(1000)
-			viewModel.findPeople(searchText)
+			viewModel.findBaseUiList(searchText)
 		}
 
 		OutlinedTextField(
@@ -95,14 +100,21 @@ fun SearchScreen(
 								people = baseUi,
 								addToFavorite = viewModel::addPeopleToFavorite,
 								removeFromFavorite = viewModel::removePeopleFromFavorite,
-								checkInFavorite = { people -> people in favoritePeople }
+								checkInFavorite = { people -> people in favoritePeoples }
 							)
 
 							is Starship -> StarshipCard(
 								starship = baseUi,
 								addToFavorite = viewModel::addStarshipToFavorite,
 								removeFromFavorite = viewModel::removeStarshipFromFavorite,
-								checkInFavorite = { starship -> starship in favoriteStarship }
+								checkInFavorite = { starship -> starship in favoriteStarships }
+							)
+
+							is Planet -> PlanetCard(
+								planet = baseUi,
+								addToFavorite = viewModel::addPlanetToFavorite,
+								removeFromFavorite = viewModel::removePlanetFromFavorite,
+								checkInFavorite = { planet -> planet in favoritePlanets }
 							)
 						}
 					}
@@ -152,7 +164,7 @@ private fun RowScope.StarshipCard(
 	Icon(
 		modifier = Modifier.padding(8.dp),
 		imageVector = Icons.Outlined.RocketLaunch,
-		tint = MaterialTheme.colorScheme.primary,
+		tint = MaterialTheme.colorScheme.secondary,
 		contentDescription = null
 	)
 	Column(modifier = Modifier.weight(1f)) {
@@ -168,6 +180,36 @@ private fun RowScope.StarshipCard(
 				if (checkInFavorite(starship)) removeFromFavorite(starship) else addToFavorite(starship)
 			}),
 		imageVector = if (checkInFavorite(starship)) Icons.Filled.Star else Icons.Outlined.StarBorder,
+		tint = MaterialTheme.colorScheme.error,
+		contentDescription = null
+	)
+}
+
+@Composable
+private fun RowScope.PlanetCard(
+	planet: Planet,
+	addToFavorite: (Planet) -> Unit,
+	removeFromFavorite: (Planet) -> Unit,
+	checkInFavorite: (Planet) -> Boolean
+) {
+	Icon(
+		modifier = Modifier.padding(8.dp),
+		imageVector = Icons.Outlined.Public,
+		tint = MaterialTheme.colorScheme.tertiary,
+		contentDescription = null
+	)
+	Column(modifier = Modifier.weight(1f)) {
+		Text(text = planet.name, style = MaterialTheme.typography.titleMedium)
+		Text(text = "Diameter: " + planet.diameter)
+		Text(text = "Population: " + planet.population)
+	}
+	Icon(
+		modifier = Modifier
+			.padding(8.dp)
+			.clickable(onClick = {
+				if (checkInFavorite(planet)) removeFromFavorite(planet) else addToFavorite(planet)
+			}),
+		imageVector = if (checkInFavorite(planet)) Icons.Filled.Star else Icons.Outlined.StarBorder,
 		tint = MaterialTheme.colorScheme.error,
 		contentDescription = null
 	)

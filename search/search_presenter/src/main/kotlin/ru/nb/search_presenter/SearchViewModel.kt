@@ -11,8 +11,10 @@ import kotlinx.coroutines.launch
 import ru.nb.favorite_domain.repo.FavoriteRepository
 import ru.nb.search_domain.model.BaseUi
 import ru.nb.search_domain.model.People
+import ru.nb.search_domain.model.Planet
 import ru.nb.search_domain.model.Starship
 import ru.nb.search_domain.repo.PeopleRepository
+import ru.nb.search_domain.repo.PlanetRepository
 import ru.nb.search_domain.repo.StarshipRepository
 import javax.inject.Inject
 
@@ -20,6 +22,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
 	private val peopleRepository: PeopleRepository,
 	private val starshipRepository: StarshipRepository,
+	private val planetRepository: PlanetRepository,
 	private val favoriteRepository: FavoriteRepository,
 ) : ViewModel() {
 
@@ -27,20 +30,26 @@ class SearchViewModel @Inject constructor(
 
 	val favoritePeopleFlow = favoriteRepository.getAllPeoples()
 	val favoriteStarshipFlow = favoriteRepository.getAllStarships()
+	val favoritePlanetFlow = favoriteRepository.getAllPlanets()
 
-	fun findPeople(search: String) {
+	fun findBaseUiList(searchText: String) {
 		viewModelScope.launch {
 			val peoplesDef = async {
-				peopleRepository.search(searchText = search)
+				peopleRepository.search(searchText = searchText)
 			}
 			val starshipsDef = async {
-				starshipRepository.search(searchText = search)
+				starshipRepository.search(searchText = searchText)
+			}
+
+			val planetsDef = async {
+				planetRepository.search(searchText = searchText)
 			}
 
 			val peoples = peoplesDef.await().data
 			val starships = starshipsDef.await().data
+			val planets = planetsDef.await().data
 
-			baseUiList = (peoples + starships).sortedBy { it.name }
+			baseUiList = (peoples + starships + planets).sortedBy { it.name }
 
 		}
 	}
@@ -66,6 +75,18 @@ class SearchViewModel @Inject constructor(
 	fun removeStarshipFromFavorite(starship: Starship) {
 		viewModelScope.launch {
 			favoriteRepository.removeStarship(starship)
+		}
+	}
+
+	fun addPlanetToFavorite(planet: Planet) {
+		viewModelScope.launch {
+			favoriteRepository.addPlanet(planet)
+		}
+	}
+
+	fun removePlanetFromFavorite(planet: Planet) {
+		viewModelScope.launch {
+			favoriteRepository.removePlanet(planet)
 		}
 	}
 

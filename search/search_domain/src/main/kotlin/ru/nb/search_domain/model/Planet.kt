@@ -1,9 +1,9 @@
 package ru.nb.search_domain.model
 
-data class People(
+
+data class Planet(
 	override val name: String,
-	val gender: String,
-	val starshipsCount: Int,
-	val homeworld: String,
+	val diameter: String,
+	val population: String,
 	override val url: String
 ) : BaseUi(name = name, url = url)

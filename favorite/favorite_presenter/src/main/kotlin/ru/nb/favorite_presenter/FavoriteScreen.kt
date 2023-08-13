@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material.icons.outlined.RocketLaunch
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -25,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ru.nb.search_domain.model.People
+import ru.nb.search_domain.model.Planet
 import ru.nb.search_domain.model.Starship
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -37,7 +39,7 @@ fun FavoriteScreen(
 		modifier = Modifier.padding(paddingValues),
 		verticalArrangement = Arrangement.spacedBy(8.dp)
 	) {
-		items(viewModel.favorites, key = {it.name}) { baseUi ->
+		items(viewModel.favorites, key = { it.name }) { baseUi ->
 			ElevatedCard(
 				modifier = Modifier
 					.padding(horizontal = 8.dp)
@@ -58,6 +60,11 @@ fun FavoriteScreen(
 						is Starship -> StarshipCard(
 							starship = baseUi,
 							removeFromFavorite = viewModel::removeStarshipFromFavorite,
+						)
+
+						is Planet -> PlanetCard(
+							planet = baseUi,
+							removeFromFavorite = viewModel::removePlanetFromFavorite,
 						)
 					}
 				}
@@ -113,6 +120,32 @@ private fun RowScope.StarshipCard(
 		modifier = Modifier
 			.padding(8.dp)
 			.clickable(onClick = { removeFromFavorite(starship) }),
+		imageVector = Icons.Outlined.Delete,
+		tint = MaterialTheme.colorScheme.error,
+		contentDescription = null
+	)
+}
+
+@Composable
+private fun RowScope.PlanetCard(
+	planet: Planet,
+	removeFromFavorite: (Planet) -> Unit,
+) {
+	Icon(
+		modifier = Modifier.padding(8.dp),
+		imageVector = Icons.Outlined.Public,
+		tint = MaterialTheme.colorScheme.tertiary,
+		contentDescription = null
+	)
+	Column(modifier = Modifier.weight(1f)) {
+		Text(text = planet.name, style = MaterialTheme.typography.titleMedium)
+		Text(text = "Diameter: " + planet.diameter)
+		Text(text = "Population: " + planet.population)
+	}
+	Icon(
+		modifier = Modifier
+			.padding(8.dp)
+			.clickable(onClick = { removeFromFavorite(planet) }),
 		imageVector = Icons.Outlined.Delete,
 		tint = MaterialTheme.colorScheme.error,
 		contentDescription = null

@@ -38,7 +38,8 @@ object FavoriteDataModule {
 	fun provideFavoriteRepository(db: StarwarDatabase): FavoriteRepository {
 		return FavoriteRepositoryImpl(
 			peopleDao = db.peopleDao,
-			starshipDao = db.starshipDao
+			starshipDao = db.starshipDao,
+			planetDao = db.planetDao
 		)
 	}
 }

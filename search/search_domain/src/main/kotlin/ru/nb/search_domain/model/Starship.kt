@@ -5,4 +5,5 @@ data class Starship(
 	val model: String,
 	val passengers: String,
 	val manufacturer: String,
-) : BaseUi(name = name, type = UiType.STARSHIP)
+	override val url: String
+) : BaseUi(name = name, url = url)

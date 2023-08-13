@@ -7,12 +7,14 @@ fun Starship.toStarshipEntity() = StarshipEntity(
 	name = name,
 	model = model,
 	passengers = passengers,
-	manufacturer = manufacturer
+	manufacturer = manufacturer,
+	url = url
 )
 
 fun StarshipEntity.toStarship() = Starship(
 	name = name,
 	model = model,
 	passengers = passengers,
-	manufacturer = manufacturer
+	manufacturer = manufacturer,
+	url = url,
 )

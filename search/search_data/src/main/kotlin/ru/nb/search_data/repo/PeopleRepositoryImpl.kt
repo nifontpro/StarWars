@@ -18,7 +18,6 @@ class PeopleRepositoryImpl(private val httpClient: HttpClient) : PeopleRepositor
 
 	override suspend fun getPeople(): BaseResult<People> {
 		val res: BaseResultDto<PeopleDto> = httpClient.get("https://swapi.dev/api/people") {
-//			parameter("", "")
 		}.body()
 		return res.toBaseResult { it.toPeople() }
 	}

@@ -17,4 +17,7 @@ data class StarshipDto(
 
     @SerialName("manufacturer")
     val manufacturer: String,
+
+    @SerialName("url")
+    val url: String
 )

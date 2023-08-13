@@ -30,6 +30,8 @@ import java.util.Set;
 import javax.annotation.processing.Generated;
 import ru.nb.favorite_data.db.dao.PeopleDao;
 import ru.nb.favorite_data.db.dao.PeopleDao_Impl;
+import ru.nb.favorite_data.db.dao.PlanetDao;
+import ru.nb.favorite_data.db.dao.PlanetDao_Impl;
 import ru.nb.favorite_data.db.dao.StarshipDao;
 import ru.nb.favorite_data.db.dao.StarshipDao_Impl;
 
@@ -40,21 +42,25 @@ public final class StarwarDatabase_Impl extends StarwarDatabase {
 
   private volatile StarshipDao _starshipDao;
 
+  private volatile PlanetDao _planetDao;
+
   @Override
   protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration configuration) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(2) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(3) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `PeopleEntity` (`name` TEXT NOT NULL, `gender` TEXT NOT NULL, `starshipsCount` INTEGER NOT NULL, `homeworld` TEXT NOT NULL, PRIMARY KEY(`name`))");
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `StarshipEntity` (`name` TEXT NOT NULL, `model` TEXT NOT NULL, `passengers` TEXT NOT NULL, `manufacturer` TEXT NOT NULL, PRIMARY KEY(`name`))");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `PeopleEntity` (`name` TEXT NOT NULL, `gender` TEXT NOT NULL, `starshipsCount` INTEGER NOT NULL, `homeworld` TEXT NOT NULL, `url` TEXT NOT NULL, PRIMARY KEY(`url`))");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `StarshipEntity` (`name` TEXT NOT NULL, `model` TEXT NOT NULL, `passengers` TEXT NOT NULL, `manufacturer` TEXT NOT NULL, `url` TEXT NOT NULL, PRIMARY KEY(`url`))");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `PlanetEntity` (`name` TEXT NOT NULL, `diameter` TEXT NOT NULL, `population` TEXT NOT NULL, `url` TEXT NOT NULL, PRIMARY KEY(`url`))");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '31772d4866df035693971a1afd57f780')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '33359a91313674969d85637ea21b90ed')");
       }
 
       @Override
       public void dropAllTables(SupportSQLiteDatabase _db) {
         _db.execSQL("DROP TABLE IF EXISTS `PeopleEntity`");
         _db.execSQL("DROP TABLE IF EXISTS `StarshipEntity`");
+        _db.execSQL("DROP TABLE IF EXISTS `PlanetEntity`");
         if (mCallbacks != null) {
           for (int _i = 0, _size = mCallbacks.size(); _i < _size; _i++) {
             mCallbacks.get(_i).onDestructiveMigration(_db);
@@ -93,11 +99,12 @@ public final class StarwarDatabase_Impl extends StarwarDatabase {
 
       @Override
       public RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
-        final HashMap<String, TableInfo.Column> _columnsPeopleEntity = new HashMap<String, TableInfo.Column>(4);
-        _columnsPeopleEntity.put("name", new TableInfo.Column("name", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashMap<String, TableInfo.Column> _columnsPeopleEntity = new HashMap<String, TableInfo.Column>(5);
+        _columnsPeopleEntity.put("name", new TableInfo.Column("name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsPeopleEntity.put("gender", new TableInfo.Column("gender", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsPeopleEntity.put("starshipsCount", new TableInfo.Column("starshipsCount", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsPeopleEntity.put("homeworld", new TableInfo.Column("homeworld", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsPeopleEntity.put("url", new TableInfo.Column("url", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysPeopleEntity = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesPeopleEntity = new HashSet<TableInfo.Index>(0);
         final TableInfo _infoPeopleEntity = new TableInfo("PeopleEntity", _columnsPeopleEntity, _foreignKeysPeopleEntity, _indicesPeopleEntity);
@@ -107,11 +114,12 @@ public final class StarwarDatabase_Impl extends StarwarDatabase {
                   + " Expected:\n" + _infoPeopleEntity + "\n"
                   + " Found:\n" + _existingPeopleEntity);
         }
-        final HashMap<String, TableInfo.Column> _columnsStarshipEntity = new HashMap<String, TableInfo.Column>(4);
-        _columnsStarshipEntity.put("name", new TableInfo.Column("name", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashMap<String, TableInfo.Column> _columnsStarshipEntity = new HashMap<String, TableInfo.Column>(5);
+        _columnsStarshipEntity.put("name", new TableInfo.Column("name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsStarshipEntity.put("model", new TableInfo.Column("model", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsStarshipEntity.put("passengers", new TableInfo.Column("passengers", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsStarshipEntity.put("manufacturer", new TableInfo.Column("manufacturer", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsStarshipEntity.put("url", new TableInfo.Column("url", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysStarshipEntity = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesStarshipEntity = new HashSet<TableInfo.Index>(0);
         final TableInfo _infoStarshipEntity = new TableInfo("StarshipEntity", _columnsStarshipEntity, _foreignKeysStarshipEntity, _indicesStarshipEntity);
@@ -121,9 +129,23 @@ public final class StarwarDatabase_Impl extends StarwarDatabase {
                   + " Expected:\n" + _infoStarshipEntity + "\n"
                   + " Found:\n" + _existingStarshipEntity);
         }
+        final HashMap<String, TableInfo.Column> _columnsPlanetEntity = new HashMap<String, TableInfo.Column>(4);
+        _columnsPlanetEntity.put("name", new TableInfo.Column("name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsPlanetEntity.put("diameter", new TableInfo.Column("diameter", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsPlanetEntity.put("population", new TableInfo.Column("population", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsPlanetEntity.put("url", new TableInfo.Column("url", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashSet<TableInfo.ForeignKey> _foreignKeysPlanetEntity = new HashSet<TableInfo.ForeignKey>(0);
+        final HashSet<TableInfo.Index> _indicesPlanetEntity = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoPlanetEntity = new TableInfo("PlanetEntity", _columnsPlanetEntity, _foreignKeysPlanetEntity, _indicesPlanetEntity);
+        final TableInfo _existingPlanetEntity = TableInfo.read(_db, "PlanetEntity");
+        if (! _infoPlanetEntity.equals(_existingPlanetEntity)) {
+          return new RoomOpenHelper.ValidationResult(false, "PlanetEntity(ru.nb.favorite_data.model.PlanetEntity).\n"
+                  + " Expected:\n" + _infoPlanetEntity + "\n"
+                  + " Found:\n" + _existingPlanetEntity);
+        }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "31772d4866df035693971a1afd57f780", "7fa930f40cbe9da9bf415f9d9871c79c");
+    }, "33359a91313674969d85637ea21b90ed", "6c7f9ef9dfa054a78fc6410d18ccd9f3");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)
@@ -136,7 +158,7 @@ public final class StarwarDatabase_Impl extends StarwarDatabase {
   protected InvalidationTracker createInvalidationTracker() {
     final HashMap<String, String> _shadowTablesMap = new HashMap<String, String>(0);
     HashMap<String, Set<String>> _viewTables = new HashMap<String, Set<String>>(0);
-    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "PeopleEntity","StarshipEntity");
+    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "PeopleEntity","StarshipEntity","PlanetEntity");
   }
 
   @Override
@@ -147,6 +169,7 @@ public final class StarwarDatabase_Impl extends StarwarDatabase {
       super.beginTransaction();
       _db.execSQL("DELETE FROM `PeopleEntity`");
       _db.execSQL("DELETE FROM `StarshipEntity`");
+      _db.execSQL("DELETE FROM `PlanetEntity`");
       super.setTransactionSuccessful();
     } finally {
       super.endTransaction();
@@ -162,6 +185,7 @@ public final class StarwarDatabase_Impl extends StarwarDatabase {
     final HashMap<Class<?>, List<Class<?>>> _typeConvertersMap = new HashMap<Class<?>, List<Class<?>>>();
     _typeConvertersMap.put(PeopleDao.class, PeopleDao_Impl.getRequiredConverters());
     _typeConvertersMap.put(StarshipDao.class, StarshipDao_Impl.getRequiredConverters());
+    _typeConvertersMap.put(PlanetDao.class, PlanetDao_Impl.getRequiredConverters());
     return _typeConvertersMap;
   }
 
@@ -201,6 +225,20 @@ public final class StarwarDatabase_Impl extends StarwarDatabase {
           _starshipDao = new StarshipDao_Impl(this);
         }
         return _starshipDao;
+      }
+    }
+  }
+
+  @Override
+  public PlanetDao getPlanetDao() {
+    if (_planetDao != null) {
+      return _planetDao;
+    } else {
+      synchronized(this) {
+        if(_planetDao == null) {
+          _planetDao = new PlanetDao_Impl(this);
+        }
+        return _planetDao;
       }
     }
   }
