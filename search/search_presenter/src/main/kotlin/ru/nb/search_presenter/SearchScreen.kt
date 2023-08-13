@@ -29,14 +29,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.delay
 import ru.nb.search_domain.model.People
 import ru.nb.search_domain.model.Planet
 import ru.nb.search_domain.model.Starship
-import ru.nb.starwars.R
 
 @Composable
 fun SearchScreen(
@@ -69,7 +67,7 @@ fun SearchScreen(
 				.fillMaxWidth(),
 			value = searchText,
 			onValueChange = { searchText = it },
-			placeholder = { Text(stringResource(R.string.search)) },
+//			placeholder = { Text(stringResource(androidx.compose.material3.R.string.search_bar_search)) },
 			leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "Search") },
 			trailingIcon = {
 				Icon(
@@ -128,7 +126,7 @@ fun SearchScreen(
 
 			if (state.isError) {
 				Text(
-					text = stringResource(id = R.string.loading_data_error),
+					text = "Load data error",
 					color = MaterialTheme.colorScheme.error,
 					modifier = Modifier.align(Alignment.Center)
 				)

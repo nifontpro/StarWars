@@ -6,7 +6,6 @@ pluginManagement {
 	}
 }
 dependencyResolutionManagement {
-	repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 	repositories {
 		google()
 		mavenCentral()
@@ -25,4 +24,4 @@ include(":favorite")
 include(":favorite:favorite_data")
 include(":favorite:favorite_domain")
 include(":favorite:favorite_presenter")
- 
+
