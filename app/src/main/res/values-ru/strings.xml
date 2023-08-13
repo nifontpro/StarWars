@@ -2,4 +2,7 @@
 <resources>
 
     <string name="star_wars">Звездные войны</string>
+    <string name="menu_home">Главная</string>
+    <string name="menu_favorite">Избранное</string>
+    <string name="about">О программе</string>
 </resources>

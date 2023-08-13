@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import ru.nb.favorite_domain.repo.FavoriteRepository
-import ru.nb.search_domain.model.BaseUi
 import ru.nb.search_domain.model.People
 import ru.nb.search_domain.model.Planet
 import ru.nb.search_domain.model.Starship
@@ -26,31 +26,39 @@ class SearchViewModel @Inject constructor(
 	private val favoriteRepository: FavoriteRepository,
 ) : ViewModel() {
 
-	var baseUiList by mutableStateOf<List<BaseUi>>(emptyList())
+	var state by mutableStateOf(SearchState())
+		private set
 
 	val favoritePeopleFlow = favoriteRepository.getAllPeoples()
 	val favoriteStarshipFlow = favoriteRepository.getAllStarships()
 	val favoritePlanetFlow = favoriteRepository.getAllPlanets()
 
-	fun findBaseUiList(searchText: String) {
+	fun search(searchText: String) {
 		viewModelScope.launch {
-			val peoplesDef = async {
-				peopleRepository.search(searchText = searchText)
+			supervisorScope {
+				state = state.copy(isLoading = true)
+
+				val peoplesDef = async {
+					peopleRepository.search(searchText = searchText)
+				}
+
+				val starshipsDef = async {
+					starshipRepository.search(searchText = searchText)
+				}
+
+				val planetsDef = async {
+					planetRepository.search(searchText = searchText)
+				}
+
+				state = try {
+					val peoples = peoplesDef.await().data
+					val starships = starshipsDef.await().data
+					val planets = planetsDef.await().data
+					SearchState(baseUiList = (peoples + starships + planets).sortedBy { it.name })
+				} catch (e: Exception) {
+					SearchState(isError = true)
+				}
 			}
-			val starshipsDef = async {
-				starshipRepository.search(searchText = searchText)
-			}
-
-			val planetsDef = async {
-				planetRepository.search(searchText = searchText)
-			}
-
-			val peoples = peoplesDef.await().data
-			val starships = starshipsDef.await().data
-			val planets = planetsDef.await().data
-
-			baseUiList = (peoples + starships + planets).sortedBy { it.name }
-
 		}
 	}
 

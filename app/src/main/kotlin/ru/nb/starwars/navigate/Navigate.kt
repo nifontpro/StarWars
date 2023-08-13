@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -42,26 +41,9 @@ fun Navigate() {
 		composable(Screen.MainScreen.route) {
 			ConfigureBottomNavigate()
 		}
-
-		composable(
-			"one",
-//				arguments = listOf(navArgument(Argument.personId)),
-		) {
-			Text("Screen one")
-		}
-
-		composable(
-			"two"
-//				arguments = listOf(
-//					navArgument(Argument.personId), navArgument(Argument.eventId)
-//				),
-		) {
-			Text("Screen two")
-		}
 	}
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ConfigureBottomNavigate() {
 	val navController = rememberNavController()
@@ -103,7 +85,9 @@ private fun ConfigureBottomNavigate() {
 						.padding(paddingValues)
 						.fillMaxSize()
 				) {
-					Column(modifier = Modifier.fillMaxWidth()) {
+					Column(modifier = Modifier
+						.fillMaxWidth()
+						.padding(top = 80.dp)) {
 						Text(
 							text = stringResource(R.string.star_wars),
 							style = MaterialTheme.typography.headlineLarge,

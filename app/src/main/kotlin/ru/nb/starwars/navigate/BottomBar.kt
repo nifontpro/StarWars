@@ -14,6 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import ru.nb.starwars.R
 
 data class BottomNavigationItem(
 	val title: String,
@@ -27,22 +29,26 @@ fun BottomBar(
 	onItemClick: (String) -> Unit,
 	isSelectItem: (String) -> Boolean,
 ) {
+
+	val menuHome = stringResource(R.string.menu_home)
+	val menuFavorite = stringResource(R.string.menu_favorite)
+	val menuAbout = stringResource(R.string.about)
 	val items = remember {
 		listOf(
 			BottomNavigationItem(
-				title = "Home",
+				title = menuHome,
 				route = Screen.SearchScreen.route,
 				selectedIcon = Icons.Filled.Home,
 				unselectedIcon = Icons.Outlined.Home,
 			),
 			BottomNavigationItem(
-				title = "Favorite",
+				title = menuFavorite,
 				route = Screen.FavoriteScreen.route,
 				selectedIcon = Icons.Filled.Star,
 				unselectedIcon = Icons.Outlined.Grade,
 			),
 			BottomNavigationItem(
-				title = "About",
+				title = menuAbout,
 				route = Screen.AboutScreen.route,
 				selectedIcon = Icons.Filled.AccountBox,
 				unselectedIcon = Icons.Outlined.AccountBox,

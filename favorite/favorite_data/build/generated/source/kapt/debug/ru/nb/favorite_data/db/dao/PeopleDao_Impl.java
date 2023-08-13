@@ -124,7 +124,7 @@ public final class PeopleDao_Impl implements PeopleDao {
   }
 
   @Override
-  public Object insert(final PeopleEntity obj, final Continuation<? super Long> arg1) {
+  public Object insert(final PeopleEntity obj, final Continuation<? super Long> $completion) {
     return CoroutinesRoom.execute(__db, true, new Callable<Long>() {
       @Override
       public Long call() throws Exception {
@@ -137,11 +137,11 @@ public final class PeopleDao_Impl implements PeopleDao {
           __db.endTransaction();
         }
       }
-    }, arg1);
+    }, $completion);
   }
 
   @Override
-  public Object insert(final PeopleEntity[] obj, final Continuation<? super Unit> arg1) {
+  public Object insert(final PeopleEntity[] obj, final Continuation<? super Unit> $completion) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -154,11 +154,11 @@ public final class PeopleDao_Impl implements PeopleDao {
           __db.endTransaction();
         }
       }
-    }, arg1);
+    }, $completion);
   }
 
   @Override
-  public Object delete(final PeopleEntity obj, final Continuation<? super Unit> arg1) {
+  public Object delete(final PeopleEntity obj, final Continuation<? super Unit> $completion) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -171,11 +171,11 @@ public final class PeopleDao_Impl implements PeopleDao {
           __db.endTransaction();
         }
       }
-    }, arg1);
+    }, $completion);
   }
 
   @Override
-  public Object update(final PeopleEntity obj, final Continuation<? super Unit> arg1) {
+  public Object update(final PeopleEntity obj, final Continuation<? super Unit> $completion) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -188,7 +188,7 @@ public final class PeopleDao_Impl implements PeopleDao {
           __db.endTransaction();
         }
       }
-    }, arg1);
+    }, $completion);
   }
 
   @Override

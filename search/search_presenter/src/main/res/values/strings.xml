@@ -1,0 +1,4 @@
+<resources>
+    <string name="loading_data_error">Loading data error</string>
+    <string name="search">Search</string>
+</resources>
