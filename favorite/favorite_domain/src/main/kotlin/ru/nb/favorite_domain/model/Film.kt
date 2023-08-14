@@ -1,4 +1,4 @@
-package ru.nb.search_domain.model
+package ru.nb.favorite_domain.model
 
 data class Film(
 	val title: String,

@@ -1,4 +1,4 @@
-package ru.nb.search_data.model
+package ru.nb.favorite_data.model
 
 
 import kotlinx.serialization.SerialName

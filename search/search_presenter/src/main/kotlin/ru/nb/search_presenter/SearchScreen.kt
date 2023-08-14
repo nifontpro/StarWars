@@ -85,7 +85,7 @@ fun SearchScreen(
 			LazyColumn(
 				verticalArrangement = Arrangement.spacedBy(8.dp)
 			) {
-				items(state.baseUiList, key = { it.name }) { baseUi ->
+				items(state.baseUiList, key = { it.url }) { baseUi ->
 					ElevatedCard(
 						modifier = Modifier
 							.padding(horizontal = 8.dp)

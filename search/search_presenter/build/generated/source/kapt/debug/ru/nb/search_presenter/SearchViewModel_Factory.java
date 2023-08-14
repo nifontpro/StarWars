@@ -7,7 +7,6 @@ import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
 import javax.inject.Provider;
 import ru.nb.favorite_domain.repo.FavoriteRepository;
-import ru.nb.search_domain.repo.FilmRepository;
 import ru.nb.search_domain.repo.PeopleRepository;
 import ru.nb.search_domain.repo.PlanetRepository;
 import ru.nb.search_domain.repo.StarshipRepository;
@@ -32,38 +31,33 @@ public final class SearchViewModel_Factory implements Factory<SearchViewModel> {
 
   private final Provider<PlanetRepository> planetRepositoryProvider;
 
-  private final Provider<FilmRepository> filmRepositoryProvider;
-
   private final Provider<FavoriteRepository> favoriteRepositoryProvider;
 
   public SearchViewModel_Factory(Provider<PeopleRepository> peopleRepositoryProvider,
       Provider<StarshipRepository> starshipRepositoryProvider,
       Provider<PlanetRepository> planetRepositoryProvider,
-      Provider<FilmRepository> filmRepositoryProvider,
       Provider<FavoriteRepository> favoriteRepositoryProvider) {
     this.peopleRepositoryProvider = peopleRepositoryProvider;
     this.starshipRepositoryProvider = starshipRepositoryProvider;
     this.planetRepositoryProvider = planetRepositoryProvider;
-    this.filmRepositoryProvider = filmRepositoryProvider;
     this.favoriteRepositoryProvider = favoriteRepositoryProvider;
   }
 
   @Override
   public SearchViewModel get() {
-    return newInstance(peopleRepositoryProvider.get(), starshipRepositoryProvider.get(), planetRepositoryProvider.get(), filmRepositoryProvider.get(), favoriteRepositoryProvider.get());
+    return newInstance(peopleRepositoryProvider.get(), starshipRepositoryProvider.get(), planetRepositoryProvider.get(), favoriteRepositoryProvider.get());
   }
 
   public static SearchViewModel_Factory create(Provider<PeopleRepository> peopleRepositoryProvider,
       Provider<StarshipRepository> starshipRepositoryProvider,
       Provider<PlanetRepository> planetRepositoryProvider,
-      Provider<FilmRepository> filmRepositoryProvider,
       Provider<FavoriteRepository> favoriteRepositoryProvider) {
-    return new SearchViewModel_Factory(peopleRepositoryProvider, starshipRepositoryProvider, planetRepositoryProvider, filmRepositoryProvider, favoriteRepositoryProvider);
+    return new SearchViewModel_Factory(peopleRepositoryProvider, starshipRepositoryProvider, planetRepositoryProvider, favoriteRepositoryProvider);
   }
 
   public static SearchViewModel newInstance(PeopleRepository peopleRepository,
       StarshipRepository starshipRepository, PlanetRepository planetRepository,
-      FilmRepository filmRepository, FavoriteRepository favoriteRepository) {
-    return new SearchViewModel(peopleRepository, starshipRepository, planetRepository, filmRepository, favoriteRepository);
+      FavoriteRepository favoriteRepository) {
+    return new SearchViewModel(peopleRepository, starshipRepository, planetRepository, favoriteRepository);
   }
 }

@@ -15,16 +15,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.nb.search_domain.model.People
 import ru.nb.search_domain.model.Planet
 import ru.nb.search_domain.model.Starship
+import ru.nb.starwars_compose.R
 
 @Composable
 fun RowScope.PeopleCard(
 	people: People,
 	addToFavorite: (People) -> Unit,
-	removeFromFavorite: (People) -> Unit,
+	removeFromFavorite: (String) -> Unit,
 	checkInFavorite: (String) -> Boolean
 ) {
 	Icon(
@@ -36,13 +38,13 @@ fun RowScope.PeopleCard(
 	Column(modifier = Modifier.weight(1f)) {
 		Text(text = people.name, style = MaterialTheme.typography.titleMedium)
 		Text(text = people.gender)
-		Text(text = "Starships: ${people.starshipsCount}")
+		Text(text = stringResource(R.string.starships) + people.starshipsCount)
 	}
 	Icon(
 		modifier = Modifier
 			.padding(8.dp)
 			.clickable(onClick = {
-				if (checkInFavorite(people.url)) removeFromFavorite(people) else addToFavorite(people)
+				if (checkInFavorite(people.url)) removeFromFavorite(people.url) else addToFavorite(people)
 			}),
 		imageVector = if (checkInFavorite(people.url)) Icons.Filled.Star else Icons.Outlined.StarBorder,
 		tint = MaterialTheme.colorScheme.error,
@@ -66,7 +68,7 @@ fun RowScope.StarshipCard(
 	Column(modifier = Modifier.weight(1f)) {
 		Text(text = starship.name, style = MaterialTheme.typography.titleMedium)
 		Text(text = starship.model)
-		Text(text = starship.passengers)
+		Text(text = stringResource(R.string.passengers) + starship.passengers)
 		Text(text = starship.manufacturer)
 	}
 	Icon(
@@ -96,8 +98,8 @@ fun RowScope.PlanetCard(
 	)
 	Column(modifier = Modifier.weight(1f)) {
 		Text(text = planet.name, style = MaterialTheme.typography.titleMedium)
-		Text(text = "Diameter: " + planet.diameter)
-		Text(text = "Population: " + planet.population)
+		Text(text = stringResource(R.string.diameter) + planet.diameter)
+		Text(text = stringResource(R.string.population) + planet.population)
 	}
 	Icon(
 		modifier = Modifier

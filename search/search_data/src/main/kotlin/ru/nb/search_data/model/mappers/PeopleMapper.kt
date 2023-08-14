@@ -8,6 +8,6 @@ fun PeopleDto.toPeople() = People(
 	gender = gender,
 	homeworld = homeworld,
 	starshipsCount = starships.size,
-	films = films,
+	filmsUrls = films,
 	url = url,
 )

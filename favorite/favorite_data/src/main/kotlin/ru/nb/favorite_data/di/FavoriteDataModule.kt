@@ -8,9 +8,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
+import io.ktor.client.HttpClient
 import ru.nb.favorite_data.db.StarwarDatabase
-import ru.nb.favorite_domain.repo.FavoriteRepository
 import ru.nb.favorite_data.repo.FavoriteRepositoryImpl
+import ru.nb.favorite_domain.repo.FavoriteRepository
 import javax.inject.Singleton
 
 @Module
@@ -35,11 +36,14 @@ object DbDataModule {
 object FavoriteDataModule {
 	@Provides
 	@ViewModelScoped
-	fun provideFavoriteRepository(db: StarwarDatabase): FavoriteRepository {
+	fun provideFavoriteRepository(db: StarwarDatabase, httpClient: HttpClient): FavoriteRepository {
 		return FavoriteRepositoryImpl(
+			httpClient = httpClient,
 			peopleDao = db.peopleDao,
 			starshipDao = db.starshipDao,
-			planetDao = db.planetDao
+			planetDao = db.planetDao,
+			filmDao = db.filmDao,
+			peopleWithFilmDao = db.peopleWithFilmDao
 		)
 	}
 }

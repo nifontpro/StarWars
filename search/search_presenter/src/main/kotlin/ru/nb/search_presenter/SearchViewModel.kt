@@ -7,14 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import ru.nb.favorite_domain.repo.FavoriteRepository
 import ru.nb.search_domain.model.People
 import ru.nb.search_domain.model.Planet
 import ru.nb.search_domain.model.Starship
-import ru.nb.search_domain.repo.FilmRepository
 import ru.nb.search_domain.repo.PeopleRepository
 import ru.nb.search_domain.repo.PlanetRepository
 import ru.nb.search_domain.repo.StarshipRepository
@@ -25,7 +23,6 @@ class SearchViewModel @Inject constructor(
 	private val peopleRepository: PeopleRepository,
 	private val starshipRepository: StarshipRepository,
 	private val planetRepository: PlanetRepository,
-	private val filmRepository: FilmRepository,
 	private val favoriteRepository: FavoriteRepository,
 ) : ViewModel() {
 
@@ -68,22 +65,19 @@ class SearchViewModel @Inject constructor(
 	fun addPeopleToFavorite(people: People) {
 		viewModelScope.launch {
 
-			val filmsDef = people.films.map { filmUrl ->
-				async {
-					filmRepository.getByUrl(url = filmUrl)
+			favoriteRepository.addPeople(people)
+
+			people.filmsUrls.map { filmUrl ->
+				launch {
+					favoriteRepository.addFilm(peopleUrl = people.url, filmUrl = filmUrl)
 				}
 			}
-
-			val films = filmsDef.awaitAll()
-			println("films: $films")
-
-			favoriteRepository.addPeople(people)
 		}
 	}
 
-	fun removePeopleFromFavorite(people: People) {
+	fun removePeopleFromFavorite(url: String) {
 		viewModelScope.launch {
-			favoriteRepository.removePeople(people)
+			favoriteRepository.removePeople(url)
 		}
 	}
 

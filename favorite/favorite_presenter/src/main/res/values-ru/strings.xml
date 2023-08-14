@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="loading_data_error">Ошибка загрузки данных</string>
-    <string name="search">Поиск</string>
+    <string name="films">Фильмы:</string>
+    <string name="director">Режиссер: </string>
+    <string name="producer">"Продюссер: "</string>
     <string name="starships">"Кораблей: "</string>
     <string name="passengers">"Пассажиров: "</string>
     <string name="diameter">"Диаметр: "</string>

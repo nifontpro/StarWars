@@ -1,6 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="loading_data_error">Loading data error</string>
-    <string name="search">Search</string>
+    <string name="films">Films:</string>
+    <string name="director">Director: </string>
+    <string name="producer">"Producer: "</string>
     <string name="starships">"Starships: "</string>
     <string name="passengers">"Passengers: "</string>
     <string name="diameter">"Diameter: "</string>

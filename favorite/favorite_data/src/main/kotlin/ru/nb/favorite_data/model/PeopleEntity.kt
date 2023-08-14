@@ -11,5 +11,5 @@ data class PeopleEntity(
 	val homeworld: String,
 
 	@PrimaryKey(autoGenerate = false)
-	val url: String,
+	val peopleUrl: String,
 )

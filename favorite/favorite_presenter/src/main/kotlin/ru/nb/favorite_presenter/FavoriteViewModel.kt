@@ -11,9 +11,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import ru.nb.favorite_domain.model.PeopleWithFilms
 import ru.nb.favorite_domain.repo.FavoriteRepository
 import ru.nb.search_domain.model.BaseUi
-import ru.nb.search_domain.model.People
 import ru.nb.search_domain.model.Planet
 import ru.nb.search_domain.model.Starship
 import javax.inject.Inject
@@ -23,11 +23,11 @@ class FavoriteViewModel @Inject constructor(
 	private val favoriteRepository: FavoriteRepository,
 ) : ViewModel() {
 
-	private val favoritePeopleFlow = favoriteRepository.getAllPeoples()
+	private val favoritePeopleWithFilms = favoriteRepository.getPeoplesWithFilms()
 	private val favoriteStarshipFlow = favoriteRepository.getAllStarships()
 	private val favoritePlanetFlow = favoriteRepository.getAllPlanets()
 
-	private val favoritePeopleState = MutableStateFlow<List<People>>(emptyList())
+	private val favoritePeopleWithFilmsState = MutableStateFlow<List<PeopleWithFilms>>(emptyList())
 	private val favoriteStarshipState = MutableStateFlow<List<Starship>>(emptyList())
 	private val favoritePlanetState = MutableStateFlow<List<Planet>>(emptyList())
 
@@ -36,8 +36,8 @@ class FavoriteViewModel @Inject constructor(
 	init {
 		viewModelScope.launch {
 			launch {
-				favoritePeopleFlow.collectLatest {
-					favoritePeopleState.value = it
+				favoritePeopleWithFilms.collectLatest {
+					favoritePeopleWithFilmsState.value = it
 				}
 			}
 
@@ -54,7 +54,7 @@ class FavoriteViewModel @Inject constructor(
 			}
 
 			launch {
-				favoritePeopleState.combine(favoriteStarshipState) { peoples, starships ->
+				favoritePeopleWithFilmsState.combine(favoriteStarshipState) { peoples, starships ->
 					peoples + starships
 				}.combine(favoritePlanetState) { peoplesAndStarships, planets ->
 					favorites = (peoplesAndStarships + planets).sortedBy { it.name }
@@ -63,9 +63,9 @@ class FavoriteViewModel @Inject constructor(
 		}
 	}
 
-	fun removePeopleFromFavorite(people: People) {
+	fun removePeopleFromFavorite(url: String) {
 		viewModelScope.launch {
-			favoriteRepository.removePeople(people)
+			favoriteRepository.removePeople(url)
 		}
 	}
 
