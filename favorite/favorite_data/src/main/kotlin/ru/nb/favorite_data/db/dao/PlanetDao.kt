@@ -13,4 +13,8 @@ interface PlanetDao : BaseDao<PlanetEntity> {
 	@Query("SELECT * FROM PlanetEntity")
 	fun getAll(): Flow<List<PlanetEntity>>
 
+	@Transaction
+	@Query("SELECT url FROM PlanetEntity")
+	fun getUrls(): Flow<List<String>>
+
 }

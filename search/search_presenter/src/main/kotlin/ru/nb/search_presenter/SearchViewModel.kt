@@ -7,12 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import ru.nb.favorite_domain.repo.FavoriteRepository
 import ru.nb.search_domain.model.People
 import ru.nb.search_domain.model.Planet
 import ru.nb.search_domain.model.Starship
+import ru.nb.search_domain.repo.FilmRepository
 import ru.nb.search_domain.repo.PeopleRepository
 import ru.nb.search_domain.repo.PlanetRepository
 import ru.nb.search_domain.repo.StarshipRepository
@@ -23,15 +25,16 @@ class SearchViewModel @Inject constructor(
 	private val peopleRepository: PeopleRepository,
 	private val starshipRepository: StarshipRepository,
 	private val planetRepository: PlanetRepository,
+	private val filmRepository: FilmRepository,
 	private val favoriteRepository: FavoriteRepository,
 ) : ViewModel() {
 
 	var state by mutableStateOf(SearchState())
 		private set
 
-	val favoritePeopleFlow = favoriteRepository.getAllPeoples()
-	val favoriteStarshipFlow = favoriteRepository.getAllStarships()
-	val favoritePlanetFlow = favoriteRepository.getAllPlanets()
+	val favoritePeoplesUrls = favoriteRepository.getPeoplesUrls()
+	val favoriteStarshipsUrls = favoriteRepository.getStarshipsUrls()
+	val favoritePlanetUrls = favoriteRepository.getPlanetsUrls()
 
 	fun search(searchText: String) {
 		viewModelScope.launch {
@@ -64,6 +67,16 @@ class SearchViewModel @Inject constructor(
 
 	fun addPeopleToFavorite(people: People) {
 		viewModelScope.launch {
+
+			val filmsDef = people.films.map { filmUrl ->
+				async {
+					filmRepository.getByUrl(url = filmUrl)
+				}
+			}
+
+			val films = filmsDef.awaitAll()
+			println("films: $films")
+
 			favoriteRepository.addPeople(people)
 		}
 	}

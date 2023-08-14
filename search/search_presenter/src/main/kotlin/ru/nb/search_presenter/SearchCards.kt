@@ -25,7 +25,7 @@ fun RowScope.PeopleCard(
 	people: People,
 	addToFavorite: (People) -> Unit,
 	removeFromFavorite: (People) -> Unit,
-	checkInFavorite: (People) -> Boolean
+	checkInFavorite: (String) -> Boolean
 ) {
 	Icon(
 		modifier = Modifier.padding(8.dp),
@@ -42,9 +42,9 @@ fun RowScope.PeopleCard(
 		modifier = Modifier
 			.padding(8.dp)
 			.clickable(onClick = {
-				if (checkInFavorite(people)) removeFromFavorite(people) else addToFavorite(people)
+				if (checkInFavorite(people.url)) removeFromFavorite(people) else addToFavorite(people)
 			}),
-		imageVector = if (checkInFavorite(people)) Icons.Filled.Star else Icons.Outlined.StarBorder,
+		imageVector = if (checkInFavorite(people.url)) Icons.Filled.Star else Icons.Outlined.StarBorder,
 		tint = MaterialTheme.colorScheme.error,
 		contentDescription = null
 	)
@@ -55,7 +55,7 @@ fun RowScope.StarshipCard(
 	starship: Starship,
 	addToFavorite: (Starship) -> Unit,
 	removeFromFavorite: (Starship) -> Unit,
-	checkInFavorite: (Starship) -> Boolean
+	checkInFavorite: (String) -> Boolean
 ) {
 	Icon(
 		modifier = Modifier.padding(8.dp),
@@ -73,9 +73,9 @@ fun RowScope.StarshipCard(
 		modifier = Modifier
 			.padding(8.dp)
 			.clickable(onClick = {
-				if (checkInFavorite(starship)) removeFromFavorite(starship) else addToFavorite(starship)
+				if (checkInFavorite(starship.url)) removeFromFavorite(starship) else addToFavorite(starship)
 			}),
-		imageVector = if (checkInFavorite(starship)) Icons.Filled.Star else Icons.Outlined.StarBorder,
+		imageVector = if (checkInFavorite(starship.url)) Icons.Filled.Star else Icons.Outlined.StarBorder,
 		tint = MaterialTheme.colorScheme.error,
 		contentDescription = null
 	)
@@ -86,7 +86,7 @@ fun RowScope.PlanetCard(
 	planet: Planet,
 	addToFavorite: (Planet) -> Unit,
 	removeFromFavorite: (Planet) -> Unit,
-	checkInFavorite: (Planet) -> Boolean
+	checkInFavorite: (String) -> Boolean
 ) {
 	Icon(
 		modifier = Modifier.padding(8.dp),
@@ -103,9 +103,9 @@ fun RowScope.PlanetCard(
 		modifier = Modifier
 			.padding(8.dp)
 			.clickable(onClick = {
-				if (checkInFavorite(planet)) removeFromFavorite(planet) else addToFavorite(planet)
+				if (checkInFavorite(planet.url)) removeFromFavorite(planet) else addToFavorite(planet)
 			}),
-		imageVector = if (checkInFavorite(planet)) Icons.Filled.Star else Icons.Outlined.StarBorder,
+		imageVector = if (checkInFavorite(planet.url)) Icons.Filled.Star else Icons.Outlined.StarBorder,
 		tint = MaterialTheme.colorScheme.error,
 		contentDescription = null
 	)

@@ -46,9 +46,9 @@ fun SearchScreen(
 
 	val state = viewModel.state
 
-	val favoritePeoples by viewModel.favoritePeopleFlow.collectAsState(initial = emptyList())
-	val favoriteStarships by viewModel.favoriteStarshipFlow.collectAsState(initial = emptyList())
-	val favoritePlanets by viewModel.favoritePlanetFlow.collectAsState(initial = emptyList())
+	val favoritePeoplesUrls by viewModel.favoritePeoplesUrls.collectAsState(initial = emptyList())
+	val favoriteStarships by viewModel.favoriteStarshipsUrls.collectAsState(initial = emptyList())
+	val favoritePlanets by viewModel.favoritePlanetUrls.collectAsState(initial = emptyList())
 
 	Column(
 		modifier = Modifier
@@ -100,21 +100,21 @@ fun SearchScreen(
 									people = baseUi,
 									addToFavorite = viewModel::addPeopleToFavorite,
 									removeFromFavorite = viewModel::removePeopleFromFavorite,
-									checkInFavorite = { people -> people in favoritePeoples }
+									checkInFavorite = { url -> url in favoritePeoplesUrls }
 								)
 
 								is Starship -> StarshipCard(
 									starship = baseUi,
 									addToFavorite = viewModel::addStarshipToFavorite,
 									removeFromFavorite = viewModel::removeStarshipFromFavorite,
-									checkInFavorite = { starship -> starship in favoriteStarships }
+									checkInFavorite = { url -> url in favoriteStarships }
 								)
 
 								is Planet -> PlanetCard(
 									planet = baseUi,
 									addToFavorite = viewModel::addPlanetToFavorite,
 									removeFromFavorite = viewModel::removePlanetFromFavorite,
-									checkInFavorite = { planet -> planet in favoritePlanets }
+									checkInFavorite = { url -> url in favoritePlanets }
 								)
 							}
 						}
@@ -128,7 +128,7 @@ fun SearchScreen(
 
 			if (state.isError) {
 				Text(
-					text = "Load data error",
+					text = stringResource(id = R.string.loading_data_error),
 					color = MaterialTheme.colorScheme.error,
 					modifier = Modifier.align(Alignment.Center)
 				)

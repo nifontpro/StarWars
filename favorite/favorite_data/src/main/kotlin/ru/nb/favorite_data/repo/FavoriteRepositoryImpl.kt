@@ -42,6 +42,10 @@ class FavoriteRepositoryImpl(
 		}
 	}
 
+	override fun getPeoplesUrls(): Flow<List<String>> {
+		return peopleDao.getUrls()
+	}
+
 	override suspend fun addStarship(starship: Starship) {
 		withContext(Dispatchers.IO) {
 			starshipDao.insert(starship.toStarshipEntity())
@@ -60,6 +64,10 @@ class FavoriteRepositoryImpl(
 		}
 	}
 
+	override fun getStarshipsUrls(): Flow<List<String>> {
+		return starshipDao.getUrls()
+	}
+
 	override suspend fun addPlanet(planet: Planet) {
 		withContext(Dispatchers.IO) {
 			planetDao.insert(planet.toPlanetEntity())
@@ -76,6 +84,10 @@ class FavoriteRepositoryImpl(
 		return planetDao.getAll().map { list ->
 			list.map { it.toPlanet() }
 		}
+	}
+
+	override fun getPlanetsUrls(): Flow<List<String>> {
+		return planetDao.getUrls()
 	}
 
 }

@@ -16,24 +16,10 @@ import ru.nb.search_domain.repo.PeopleRepository
 
 class PeopleRepositoryImpl(private val httpClient: HttpClient) : PeopleRepository {
 
-	override suspend fun getPeople(): BaseResult<People> {
-		val res: BaseResultDto<PeopleDto> = httpClient.get("https://swapi.dev/api/people") {
-		}.body()
-		return res.toBaseResult { it.toPeople() }
-	}
-
 	override suspend fun search(searchText: String): BaseResult<People> {
 		return withContext(Dispatchers.IO) {
 			val res: BaseResultDto<PeopleDto> = httpClient.get("https://swapi.dev/api/people") {
 				parameter("search", searchText)
-			}.body()
-			res.toBaseResult { it.toPeople() }
-		}
-	}
-
-	override suspend fun getNext(url: String): BaseResult<People> {
-		return withContext(Dispatchers.IO) {
-			val res: BaseResultDto<PeopleDto> = httpClient.get(url) {
 			}.body()
 			res.toBaseResult { it.toPeople() }
 		}

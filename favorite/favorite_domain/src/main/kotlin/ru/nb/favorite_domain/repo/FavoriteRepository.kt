@@ -15,4 +15,7 @@ interface FavoriteRepository {
 	suspend fun addPlanet(planet: Planet)
 	suspend fun removePlanet(planet: Planet)
 	fun getAllPlanets(): Flow<List<Planet>>
+	fun getPeoplesUrls(): Flow<List<String>>
+	fun getStarshipsUrls(): Flow<List<String>>
+	fun getPlanetsUrls(): Flow<List<String>>
 }

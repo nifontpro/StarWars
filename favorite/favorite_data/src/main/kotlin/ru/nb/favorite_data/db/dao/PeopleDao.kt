@@ -13,4 +13,8 @@ interface PeopleDao : BaseDao<PeopleEntity> {
 	@Query("SELECT * FROM PeopleEntity")
 	fun getAll(): Flow<List<PeopleEntity>>
 
+	@Transaction
+	@Query("SELECT url FROM PeopleEntity")
+	fun getUrls(): Flow<List<String>>
+
 }

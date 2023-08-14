@@ -124,7 +124,7 @@ public final class PeopleDao_Impl implements PeopleDao {
   }
 
   @Override
-  public Object insert(final PeopleEntity obj, final Continuation<? super Long> $completion) {
+  public Object insert(final PeopleEntity obj, final Continuation<? super Long> arg1) {
     return CoroutinesRoom.execute(__db, true, new Callable<Long>() {
       @Override
       public Long call() throws Exception {
@@ -137,11 +137,11 @@ public final class PeopleDao_Impl implements PeopleDao {
           __db.endTransaction();
         }
       }
-    }, $completion);
+    }, arg1);
   }
 
   @Override
-  public Object insert(final PeopleEntity[] obj, final Continuation<? super Unit> $completion) {
+  public Object insert(final PeopleEntity[] obj, final Continuation<? super Unit> arg1) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -154,11 +154,11 @@ public final class PeopleDao_Impl implements PeopleDao {
           __db.endTransaction();
         }
       }
-    }, $completion);
+    }, arg1);
   }
 
   @Override
-  public Object delete(final PeopleEntity obj, final Continuation<? super Unit> $completion) {
+  public Object delete(final PeopleEntity obj, final Continuation<? super Unit> arg1) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -171,11 +171,11 @@ public final class PeopleDao_Impl implements PeopleDao {
           __db.endTransaction();
         }
       }
-    }, $completion);
+    }, arg1);
   }
 
   @Override
-  public Object update(final PeopleEntity obj, final Continuation<? super Unit> $completion) {
+  public Object update(final PeopleEntity obj, final Continuation<? super Unit> arg1) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -188,7 +188,7 @@ public final class PeopleDao_Impl implements PeopleDao {
           __db.endTransaction();
         }
       }
-    }, $completion);
+    }, arg1);
   }
 
   @Override
@@ -237,6 +237,44 @@ public final class PeopleDao_Impl implements PeopleDao {
                 _tmpUrl = _cursor.getString(_cursorIndexOfUrl);
               }
               _item = new PeopleEntity(_tmpName,_tmpGender,_tmpStarshipsCount,_tmpHomeworld,_tmpUrl);
+              _result.add(_item);
+            }
+            __db.setTransactionSuccessful();
+            return _result;
+          } finally {
+            _cursor.close();
+          }
+        } finally {
+          __db.endTransaction();
+        }
+      }
+
+      @Override
+      protected void finalize() {
+        _statement.release();
+      }
+    });
+  }
+
+  @Override
+  public Flow<List<String>> getUrls() {
+    final String _sql = "SELECT url FROM PeopleEntity";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+    return CoroutinesRoom.createFlow(__db, true, new String[]{"PeopleEntity"}, new Callable<List<String>>() {
+      @Override
+      public List<String> call() throws Exception {
+        __db.beginTransaction();
+        try {
+          final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+          try {
+            final List<String> _result = new ArrayList<String>(_cursor.getCount());
+            while(_cursor.moveToNext()) {
+              final String _item;
+              if (_cursor.isNull(0)) {
+                _item = null;
+              } else {
+                _item = _cursor.getString(0);
+              }
               _result.add(_item);
             }
             __db.setTransactionSuccessful();

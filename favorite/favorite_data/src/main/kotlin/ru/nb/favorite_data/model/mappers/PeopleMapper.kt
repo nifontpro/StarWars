@@ -16,5 +16,6 @@ fun PeopleEntity.toPeople() = People(
 	gender = gender,
 	starshipsCount = starshipsCount,
 	homeworld = homeworld,
+	films = emptyList(),
 	url = url
 )

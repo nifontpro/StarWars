@@ -18,10 +18,10 @@ data class PeopleDto(
 	@SerialName("starships")
 	val starships: List<String>,
 
+	@SerialName("films")
+	val films: List<String>,
+
 	@SerialName("url")
 	val url: String,
 
-//	@SerialName("films")
-//	val films: List<String>,
-//
 )

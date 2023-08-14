@@ -13,4 +13,8 @@ interface StarshipDao : BaseDao<StarshipEntity> {
 	@Query("SELECT * FROM StarshipEntity")
 	fun getAll(): Flow<List<StarshipEntity>>
 
+	@Transaction
+	@Query("SELECT url FROM StarshipEntity")
+	fun getUrls(): Flow<List<String>>
+
 }
