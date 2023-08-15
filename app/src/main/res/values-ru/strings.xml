@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="star_wars">Звездные войны</string>
+    <string name="test_work">Тестовое задание</string>
     <string name="menu_home">Главная</string>
     <string name="menu_favorite">Избранное</string>
     <string name="about">О программе</string>
