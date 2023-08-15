@@ -34,7 +34,7 @@ class InstrumentalTest {
 	 * Тестирование навигации до экрана "О программе"
 	 */
 	@Test
-	fun clickFavoriteScreen_isVisible() {
+	fun clickAboutScreen_isVisible() {
 		composeRule.onNodeWithTag(TestTags.ABOUT_SECTION).assertDoesNotExist()
 		composeRule.onNodeWithTag(TestTags.ABOUT_MENU_ITEM).performClick()
 		composeRule.onNodeWithTag(TestTags.ABOUT_SECTION).assertIsDisplayed()
