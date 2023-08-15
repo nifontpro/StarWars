@@ -18,12 +18,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.nb.starwars.R
+import ru.nb.starwars.tags.TestTags
 
 @Composable
 fun AboutScreen(paddingValues: PaddingValues) {
@@ -31,6 +33,7 @@ fun AboutScreen(paddingValues: PaddingValues) {
 		modifier = Modifier
 			.padding(paddingValues)
 			.fillMaxSize()
+			.testTag(TestTags.ABOUT_SECTION)
 	) {
 		Column(
 			modifier = Modifier

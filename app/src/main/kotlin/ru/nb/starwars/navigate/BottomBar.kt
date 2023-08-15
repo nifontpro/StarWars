@@ -13,15 +13,19 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import ru.nb.starwars.R
+import ru.nb.starwars.tags.TestTags
 
 data class BottomNavigationItem(
 	val title: String,
 	val route: String,
 	val selectedIcon: ImageVector,
 	val unselectedIcon: ImageVector,
+	val testTag: String = ""
 )
 
 @Composable
@@ -52,6 +56,7 @@ fun BottomBar(
 				route = Screen.AboutScreen.route,
 				selectedIcon = Icons.Filled.AccountBox,
 				unselectedIcon = Icons.Outlined.AccountBox,
+				testTag = TestTags.ABOUT_MENU_ITEM
 			),
 		)
 	}
@@ -60,6 +65,7 @@ fun BottomBar(
 		items.forEach { item ->
 			val selected = isSelectItem(item.route)
 			NavigationBarItem(
+				modifier = Modifier.testTag(item.testTag),
 				selected = selected,
 				onClick = {
 					onItemClick(item.route)

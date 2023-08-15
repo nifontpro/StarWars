@@ -14,6 +14,8 @@ object Testing {
 	const val uiTooling = "androidx.compose.ui:ui-tooling"
 	const val manifest = "androidx.compose.ui:ui-test-manifest"
 
+	const val hiltTesting = "com.google.dagger:hilt-android-testing:${DaggerHilt.version}"
+
 	private const val testRunnerVersion = "1.5.2"
 	const val testRunner = "androidx.test:runner:$testRunnerVersion"
 }

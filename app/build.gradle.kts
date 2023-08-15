@@ -21,7 +21,8 @@ android {
 		versionCode = ProjectConfig.versionCode
 		versionName = ProjectConfig.versionName
 
-		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+		testInstrumentationRunner = "ru.nb.starwars.HiltTestRunner"
 		vectorDrawables {
 			useSupportLibrary = true
 		}
@@ -110,4 +111,7 @@ dependencies {
 	androidTestImplementation(Testing.composeUiTest)
 	debugImplementation(Testing.uiTooling)
 	debugImplementation(Testing.manifest)
+
+	androidTestImplementation(Testing.hiltTesting)
+	kaptAndroidTest(DaggerHilt.hiltCompiler)
 }
