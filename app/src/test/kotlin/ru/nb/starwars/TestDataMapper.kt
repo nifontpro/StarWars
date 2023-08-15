@@ -20,7 +20,8 @@ class TestDataMapper {
 			gender = gender,
 			homeworld = homeworld,
 			starships = starships,
-			url = url
+			url = url,
+			films = emptyList()
 		)
 
 		val people = peopleDto.toPeople()
