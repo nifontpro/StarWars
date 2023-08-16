@@ -10,7 +10,7 @@ import javax.annotation.processing.Generated;
 import javax.inject.Provider;
 import ru.nb.search_domain.repo.StarshipRepository;
 
-@ScopeMetadata("dagger.hilt.android.scopes.ViewModelScoped")
+@ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
 @DaggerGenerated
 @Generated(

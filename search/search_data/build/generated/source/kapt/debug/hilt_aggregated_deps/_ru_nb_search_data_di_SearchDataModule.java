@@ -7,7 +7,7 @@ import javax.annotation.processing.Generated;
  * This class should only be referenced by generated code! This class aggregates information across multiple compilations.
  */
 @AggregatedDeps(
-    components = "dagger.hilt.android.components.ViewModelComponent",
+    components = "dagger.hilt.components.SingletonComponent",
     modules = "ru.nb.search_data.di.SearchDataModule"
 )
 @Generated("dagger.hilt.processor.internal.aggregateddeps.AggregatedDepsGenerator")
