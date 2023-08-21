@@ -109,6 +109,8 @@ dependencies {
 
 	androidTestImplementation(platform(Compose.bom))
 	androidTestImplementation(Testing.composeUiTest)
+	androidTestImplementation(Testing.coroutines)
+	androidTestImplementation(Testing.turbine)
 	debugImplementation(Testing.uiTooling)
 	debugImplementation(Testing.manifest)
 

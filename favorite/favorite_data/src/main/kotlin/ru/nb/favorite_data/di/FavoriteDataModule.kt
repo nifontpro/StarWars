@@ -5,8 +5,6 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import ru.nb.favorite_data.db.StarwarDatabase
@@ -26,16 +24,19 @@ object DbDataModule {
 			StarwarDatabase::class.java,
 			"starwar_db"
 		)
-			.fallbackToDestructiveMigration()
+//			.fallbackToDestructiveMigration()
 			.build()
 	}
 }
 
 @Module
-@InstallIn(ViewModelComponent::class)
+//@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class) // for test
 object FavoriteDataModule {
+
 	@Provides
-	@ViewModelScoped
+	@Singleton
+//	@ViewModelScoped
 	fun provideFavoriteRepository(db: StarwarDatabase, httpClient: HttpClient): FavoriteRepository {
 		return FavoriteRepositoryImpl(
 			httpClient = httpClient,

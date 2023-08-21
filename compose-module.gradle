@@ -86,4 +86,5 @@ dependencies {
     androidTestImplementation Testing.junitAndroidExt
     androidTestImplementation Testing.coroutines
     androidTestImplementation Testing.composeUiTest
+    androidTestImplementation Testing.turbine
 }

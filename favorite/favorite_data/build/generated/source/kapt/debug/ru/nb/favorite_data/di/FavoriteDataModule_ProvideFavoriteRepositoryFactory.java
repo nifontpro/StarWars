@@ -11,7 +11,7 @@ import javax.inject.Provider;
 import ru.nb.favorite_data.db.StarwarDatabase;
 import ru.nb.favorite_domain.repo.FavoriteRepository;
 
-@ScopeMetadata("dagger.hilt.android.scopes.ViewModelScoped")
+@ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
 @DaggerGenerated
 @Generated(

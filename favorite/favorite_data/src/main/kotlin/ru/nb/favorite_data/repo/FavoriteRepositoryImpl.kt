@@ -40,15 +40,11 @@ class FavoriteRepositoryImpl(
 ) : FavoriteRepository {
 
 	override suspend fun addPeople(people: People) {
-		withContext(Dispatchers.IO) {
-			peopleDao.insert(people.toPeopleEntity())
-		}
+		peopleDao.insert(people.toPeopleEntity())
 	}
 
 	override suspend fun removePeople(url: String) {
-		withContext(Dispatchers.IO) {
 			peopleDao.deleteByUrl(url)
-		}
 	}
 
 	override fun getAllPeoples(): Flow<List<People>> {
@@ -68,15 +64,11 @@ class FavoriteRepositoryImpl(
 	}
 
 	override suspend fun addStarship(starship: Starship) {
-		withContext(Dispatchers.IO) {
 			starshipDao.insert(starship.toStarshipEntity())
-		}
 	}
 
 	override suspend fun removeStarship(starship: Starship) {
-		withContext(Dispatchers.IO) {
 			starshipDao.delete(starship.toStarshipEntity())
-		}
 	}
 
 	override fun getAllStarships(): Flow<List<Starship>> {
@@ -90,15 +82,11 @@ class FavoriteRepositoryImpl(
 	}
 
 	override suspend fun addPlanet(planet: Planet) {
-		withContext(Dispatchers.IO) {
 			planetDao.insert(planet.toPlanetEntity())
-		}
 	}
 
 	override suspend fun removePlanet(planet: Planet) {
-		withContext(Dispatchers.IO) {
 			planetDao.delete(planet.toPlanetEntity())
-		}
 	}
 
 	override fun getAllPlanets(): Flow<List<Planet>> {

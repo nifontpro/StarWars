@@ -5,7 +5,7 @@ object Testing {
 	private const val junitAndroidExtVersion = "1.1.5"
 	const val junitAndroidExt = "androidx.test.ext:junit:$junitAndroidExtVersion"
 
-	private const val coroutinesTestVersion = "1.6.4"
+	private const val coroutinesTestVersion = "1.7.1"
 	const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTestVersion"
 
 	const val composeUiTest = "androidx.compose.ui:ui-test-junit4"
@@ -18,4 +18,7 @@ object Testing {
 
 	private const val testRunnerVersion = "1.5.2"
 	const val testRunner = "androidx.test:runner:$testRunnerVersion"
+
+	const val turbine = "app.cash.turbine:turbine:1.0.0"
+
 }
