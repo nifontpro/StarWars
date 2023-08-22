@@ -6,7 +6,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import ru.nb.favorite_domain.repo.FavoriteRepository
@@ -29,12 +33,50 @@ class SearchViewModel @Inject constructor(
 	var state by mutableStateOf(SearchState())
 		private set
 
-	val favoritePeoplesUrls = favoriteRepository.getPeoplesUrls()
-	val favoriteStarshipsUrls = favoriteRepository.getStarshipsUrls()
-	val favoritePlanetUrls = favoriteRepository.getPlanetsUrls()
+	private val favoritePeoplesUrlsFlow = favoriteRepository.getPeoplesUrls()
+	private val favoriteStarshipsUrlsFlow = favoriteRepository.getStarshipsUrls()
+	private val favoritePlanetUrlsFlow = favoriteRepository.getPlanetsUrls()
 
-	fun search(searchText: String) {
+	init {
 		viewModelScope.launch {
+			launch {
+				favoritePeoplesUrlsFlow.collectLatest {
+					state = state.copy(favoritePeoplesUrls = it)
+				}
+			}
+			launch {
+				favoriteStarshipsUrlsFlow.collectLatest {
+					state = state.copy(favoriteStarshipsUrls = it)
+				}
+			}
+			launch {
+				favoritePlanetUrlsFlow.collectLatest {
+					state = state.copy(favoritePlanetsUrls = it)
+				}
+			}
+		}
+	}
+
+	fun onEvent(event: SearchEvent) {
+		when (event) {
+			SearchEvent.ClearSearch -> state = state.copy(searchText = "")
+			is SearchEvent.OnSearch -> search(searchText = event.searchText)
+			is SearchEvent.AddPeopleToFavorite -> addPeopleToFavorite(people = event.people)
+			is SearchEvent.AddPlanetToFavorite -> addPlanetToFavorite(planet = event.planet)
+			is SearchEvent.AddStarshipToFavorite -> addStarshipToFavorite(starship = event.starship)
+			is SearchEvent.RemovePeopleFromFavorite -> removePeopleFromFavorite(url = event.url)
+			is SearchEvent.RemovePlanetFromFavorite -> removePlanetFromFavorite(planet = event.planet)
+			is SearchEvent.RemoveStarshipFromFavorite -> removeStarshipFromFavorite(starship = event.starship)
+		}
+	}
+
+	private var job: Job? = null
+	private fun search(searchText: String) {
+		state = state.copy(searchText = searchText)
+		if (searchText.isBlank() || searchText.length < 2) return
+		job?.cancel()
+		job = viewModelScope.launch {
+			delay(500L)
 			supervisorScope {
 				state = state.copy(isLoading = true)
 
@@ -54,15 +96,25 @@ class SearchViewModel @Inject constructor(
 					val peoples = peoplesDef.await().data
 					val starships = starshipsDef.await().data
 					val planets = planetsDef.await().data
-					SearchState(baseUiList = (peoples + starships + planets).sortedBy { it.name })
+					state.copy(
+						baseUiList = (peoples + starships + planets).sortedBy { it.name },
+						isLoading = false,
+						isError = false,
+					)
+				} catch (e: CancellationException) {
+					println("Search: CancellationException")
+					state.copy(
+						isLoading = false,
+						isError = false,
+					)
 				} catch (e: Exception) {
-					SearchState(isError = true)
+					state.copy(isError = true, isLoading = false)
 				}
 			}
 		}
 	}
 
-	fun addPeopleToFavorite(people: People) {
+	private fun addPeopleToFavorite(people: People) {
 		viewModelScope.launch {
 
 			favoriteRepository.addPeople(people)
@@ -75,31 +127,31 @@ class SearchViewModel @Inject constructor(
 		}
 	}
 
-	fun removePeopleFromFavorite(url: String) {
+	private fun removePeopleFromFavorite(url: String) {
 		viewModelScope.launch {
 			favoriteRepository.removePeople(url)
 		}
 	}
 
-	fun addStarshipToFavorite(starship: Starship) {
+	private fun addStarshipToFavorite(starship: Starship) {
 		viewModelScope.launch {
 			favoriteRepository.addStarship(starship)
 		}
 	}
 
-	fun removeStarshipFromFavorite(starship: Starship) {
+	private fun removeStarshipFromFavorite(starship: Starship) {
 		viewModelScope.launch {
 			favoriteRepository.removeStarship(starship)
 		}
 	}
 
-	fun addPlanetToFavorite(planet: Planet) {
+	private fun addPlanetToFavorite(planet: Planet) {
 		viewModelScope.launch {
 			favoriteRepository.addPlanet(planet)
 		}
 	}
 
-	fun removePlanetFromFavorite(planet: Planet) {
+	private fun removePlanetFromFavorite(planet: Planet) {
 		viewModelScope.launch {
 			favoriteRepository.removePlanet(planet)
 		}
